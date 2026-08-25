@@ -1240,7 +1240,7 @@
       <li><a href="#process">Process</a></li>
       <li><a href="#portfolio">Portfolio</a></li>
       <li><a href="#team">Team</a></li>
-      <li><a href="#finale">Contact</a></li>
+      <li><a href="#contact-form">Contact</a></li>
     </ul>
   </nav>
 
@@ -1267,7 +1267,7 @@
 
     <p class="hero-tagline" id="hero-tagline"></p>
     <p class="hero-sub" id="hero-sub">We back the bold. Seed-stage capital investing at the inflection point of the intelligence era.</p>
-    <a href="#finale" class="hero-cta" id="hero-cta"><span>Get in Touch</span></a>
+    <a href="#contact-form" class="hero-cta" id="hero-cta"><span>Get in Touch</span></a>
 
 
   </section>
@@ -2117,8 +2117,10 @@
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
-      const target = document.querySelector(a.getAttribute('href'));
-      if (target) lenis.scrollTo(target, { offset: -80, duration: 1.4 });
+      const href = a.getAttribute('href');
+      const target = document.querySelector(href);
+      const offset = href === '#contact-form' ? -110 : -80;
+      if (target) lenis.scrollTo(target, { offset, duration: 1.4 });
     });
   });
 
