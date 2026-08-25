@@ -1091,6 +1091,7 @@
       <li><a href="#thesis">Thesis</a></li>
       <li><a href="#focus">Focus</a></li>
       <li><a href="#process">Process</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
       <li><a href="#team">Team</a></li>
       <li><a href="#finale">Contact</a></li>
     </ul>
@@ -1374,11 +1375,70 @@
     </div>
   </section>
 
+  <!-- ─── PORTFOLIO ─── -->
+  <section id="portfolio" style="background:var(--green-deep);">
+    <div class="section-inner">
+      <div class="section-eyebrow">Portfolio</div>
+      <h2 class="focus-headline" style="margin-bottom:16px;">Early traction.<br>Already compounding.</h2>
+      <div class="amber-line" style="opacity:1;margin-bottom:64px;"></div>
+
+      <div class="focus-cards">
+
+        <div class="focus-card">
+          <div class="card-bg-letter" aria-hidden="true">Oi</div>
+          <svg class="card-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="8" width="24" height="24" rx="4" stroke="#EDD9B0" stroke-width="1.5" fill="none"/>
+            <path d="M14 20 L18 24 L26 16" stroke="#E07A15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3 class="card-title">One Intelligence</h3>
+          <p class="card-body">Post-quantum trust infrastructure for AI systems. $10M SAFE raise at $120M pre-money. Live go-to-market with enterprise pilots underway.</p>
+          <span class="card-tag">Cybersecurity AI</span>
+        </div>
+
+        <div class="focus-card">
+          <div class="card-bg-letter" aria-hidden="true">Mh</div>
+          <svg class="card-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 8 L20 32 M8 20 L32 20" stroke="#E07A15" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+            <circle cx="20" cy="20" r="14" stroke="#EDD9B0" stroke-width="1.5" fill="none"/>
+          </svg>
+          <h3 class="card-title">Mesh Health Solutions</h3>
+          <p class="card-body">AI-first prior authorization and clinical risk platform. Live in production, generating revenue within weeks of go-live. $3M pre-money convertible note.</p>
+          <span class="card-tag">HealthTech · Clinical AI</span>
+        </div>
+
+        <div class="focus-card">
+          <div class="card-bg-letter" aria-hidden="true">Ag</div>
+          <svg class="card-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="6" stroke="#EDD9B0" stroke-width="1.5" fill="none"/>
+            <path d="M8 12 Q14 8 20 14 Q26 20 32 16" stroke="#E07A15" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M8 28 Q14 24 20 28 Q26 32 32 28" stroke="#E07A15" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+          </svg>
+          <h3 class="card-title">Adapt Global Studios</h3>
+          <p class="card-body">Global linguist marketplace for localized video — 4× faster, 4× cheaper. $5B current TAM, enterprise customers live. $5M pre-money SAFE.</p>
+          <span class="card-tag">LinguisticTech · Media AI</span>
+        </div>
+
+        <div class="focus-card">
+          <div class="card-bg-letter" aria-hidden="true">Tr</div>
+          <svg class="card-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 14 L20 8 L32 14 L20 20 Z" stroke="#EDD9B0" stroke-width="1.5" fill="none"/>
+            <path d="M14 17.5 L14 26 Q20 30 26 26 L26 17.5" stroke="#E07A15" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.8"/>
+          </svg>
+          <h3 class="card-title">TREVI</h3>
+          <p class="card-body">AI for structured topic research and curriculum management — exploratory learning with referenceable frameworks. $11M pre-money SAFE.</p>
+          <span class="card-tag">EdTech</span>
+        </div>
+
+      </div>
+
+      <p style="font-family:var(--mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--parchment);opacity:0.25;text-align:center;margin-top:48px;">Additional positions held privately. Details available on request.</p>
+    </div>
+  </section>
+
   <!-- ─── TEAM ─── -->
   <section id="team">
     <div class="section-inner">
-      <div class="section-eyebrow" style="text-align:center">Leadership &amp; Partners</div>
-      <h2 class="team-headline" style="text-align:center">Team &amp; Partners.</h2>
+      <div class="section-eyebrow" style="color:var(--amber);opacity:1;">Leadership &amp; Partners</div>
 
       <!-- TIER 1: Hub-and-spoke — Gopal center -->
       <div class="team-tier-label">Founding Leadership</div>
@@ -1753,10 +1813,9 @@
   });
 
   // Team
-  gsap.to('.team-headline', {
-    clipPath: 'inset(0 0 0% 0)',
-    duration: 0.9, ease: 'power3.out',
-    scrollTrigger: { trigger: '.team-headline', start: 'top 80%' }
+  gsap.to('.team-tier-label', {
+    opacity: 1, duration: 0.6,
+    scrollTrigger: { trigger: '#team', start: 'top 80%' }
   });
 
   gsap.to('.team-member', {
