@@ -710,6 +710,7 @@
       text-align: center;
     }
 
+    /* ─── TEAM TIERS ─── */
     .team-headline {
       font-family: var(--display);
       font-weight: 700;
@@ -720,6 +721,19 @@
       clip-path: inset(0 0 100% 0);
     }
 
+    /* Tier label */
+    .team-tier-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      opacity: 0.3;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    /* Tier 1 — hub-and-spoke: Gopal center, Wil + Tera flanking */
     .team-grid {
       display: grid;
       grid-template-columns: 1fr auto 1fr;
@@ -730,19 +744,38 @@
       position: relative;
     }
 
-    /* Connecting lines between supporting and center */
     .team-grid::before,
     .team-grid::after {
       content: '';
       position: absolute;
-      top: 68px; /* center of supporting avatars */
+      top: 68px;
       height: 1px;
-      background: linear-gradient(to right, transparent, rgba(237,217,176,0.12), rgba(237,217,176,0.12));
-      width: calc(50% - 80px); /* from supporting member to center gap */
       pointer-events: none;
     }
-    .team-grid::before { left: 0; background: linear-gradient(to right, transparent, rgba(237,217,176,0.15)); }
-    .team-grid::after  { right: 0; background: linear-gradient(to left, transparent, rgba(237,217,176,0.15)); }
+    .team-grid::before { left: 0; right: 50%; background: linear-gradient(to right, transparent, rgba(237,217,176,0.15)); }
+    .team-grid::after  { left: 50%; right: 0; background: linear-gradient(to left, transparent, rgba(237,217,176,0.15)); }
+
+    /* Tier 2 — venture partners row */
+    .team-tier-divider {
+      border: none;
+      border-top: 1px solid rgba(237,217,176,0.06);
+      margin: 72px auto 56px;
+      max-width: 900px;
+    }
+
+    .team-row {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Tier 3 — advisory, even smaller */
+    .team-row.advisory {
+      gap: 36px;
+    }
 
     .team-member {
       opacity: 0;
@@ -760,14 +793,22 @@
       padding: 0 24px;
     }
 
-    /* Lead avatar — large, amber ring */
+    .team-member.is-vp {
+      flex: 0 0 180px;
+    }
+
+    .team-member.is-advisory {
+      flex: 0 0 140px;
+    }
+
+    /* Avatars */
     .member-avatar {
       width: 88px;
       height: 88px;
       border-radius: 50%;
       background: var(--green);
       border: 1.5px solid rgba(237, 217, 176, 0.15);
-      margin: 0 auto 24px;
+      margin: 0 auto 20px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -780,6 +821,17 @@
       border: 2px solid var(--amber);
       box-shadow: 0 0 40px rgba(224, 122, 21, 0.15);
       margin-bottom: 28px;
+    }
+
+    .team-member.is-vp .member-avatar {
+      width: 72px;
+      height: 72px;
+    }
+
+    .team-member.is-advisory .member-avatar {
+      width: 56px;
+      height: 56px;
+      margin-bottom: 12px;
     }
 
     .member-avatar img {
@@ -797,9 +849,9 @@
       color: var(--parchment);
     }
 
-    .team-member.is-lead .member-initials {
-      font-size: 36px;
-    }
+    .team-member.is-lead .member-initials { font-size: 36px; }
+    .team-member.is-vp .member-initials   { font-size: 18px; }
+    .team-member.is-advisory .member-initials { font-size: 14px; }
 
     .member-name {
       font-family: var(--display);
@@ -810,10 +862,9 @@
       margin-bottom: 4px;
     }
 
-    .team-member.is-lead .member-name {
-      font-size: 32px;
-      margin-bottom: 6px;
-    }
+    .team-member.is-lead .member-name     { font-size: 32px; margin-bottom: 6px; }
+    .team-member.is-vp .member-name       { font-size: 16px; }
+    .team-member.is-advisory .member-name { font-size: 13px; margin-bottom: 2px; }
 
     .member-title {
       font-family: var(--mono);
@@ -837,6 +888,26 @@
       font-size: 15px;
       max-width: 320px;
       opacity: 0.5;
+    }
+
+    .team-member.is-vp .member-bio {
+      font-size: 12px;
+      max-width: 160px;
+      opacity: 0.4;
+    }
+
+    .team-member.is-advisory .member-bio {
+      display: none; /* advisory: name + firm only, no bio text */
+    }
+
+    .member-firm {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      opacity: 0.3;
+      margin-top: 2px;
     }
 
     /* ─── CTA / FOOTER ─── */
@@ -991,6 +1062,9 @@
       }
       .team-grid::before, .team-grid::after { display: none; }
       .team-member.is-lead { padding: 0; order: -1; }
+      .team-row { gap: 32px; }
+      .team-member.is-vp { flex: 0 0 140px; }
+      .team-member.is-advisory { flex: 0 0 100px; }
       .thesis-quote { font-size: 32px; }
       .edge-stats { flex-direction: column; gap: 32px; }
       .process-line { left: 48px; }
@@ -1303,11 +1377,13 @@
   <!-- ─── TEAM ─── -->
   <section id="team">
     <div class="section-inner">
-      <div class="section-eyebrow" style="text-align:center">The Partners</div>
-      <h2 class="team-headline">The people<br>behind the capital.</h2>
+      <div class="section-eyebrow" style="text-align:center">Leadership &amp; Partners</div>
+      <h2 class="team-headline" style="text-align:center">Team &amp; Partners.</h2>
+
+      <!-- TIER 1: Hub-and-spoke — Gopal center -->
+      <div class="team-tier-label">Founding Leadership</div>
       <div class="team-grid">
 
-        <!-- Left: Wil Bolivar -->
         <div class="team-member is-supporting">
           <a href="https://www.linkedin.com/in/wbolivar" target="_blank" rel="noopener" style="text-decoration:none;">
             <div class="member-avatar">
@@ -1316,10 +1392,9 @@
           </a>
           <div class="member-name">Wil Bolivar</div>
           <div class="member-title">Advisory Partner — Technology &amp; AI</div>
-          <div class="member-bio">Partner &amp; CTO at SoftBank Investment Advisers. Led AI strategy, technical diligence, and cybersecurity across a global portfolio. Board observer at Arkose Labs. Advised Zoom and LinkedIn ahead of IPO.</div>
+          <div class="member-bio">Partner &amp; CTO at SoftBank Investment Advisers. Led AI strategy and cybersecurity across a global portfolio. Board observer at Arkose Labs. Advised Zoom and LinkedIn ahead of IPO.</div>
         </div>
 
-        <!-- Center: Dr. Gopal K. Chopra — lead -->
         <div class="team-member is-lead">
           <a href="https://www.linkedin.com/in/gopalkchopra" target="_blank" rel="noopener" style="text-decoration:none;">
             <div class="member-avatar">
@@ -1331,7 +1406,6 @@
           <div class="member-bio">Neurosurgeon, prior Stanford &amp; Duke faculty, and former Lazard banker who advised on more than $30B in M&amp;A, IPOs, and private financings. Built three med/health-tech companies to major exits. Creator of patents spanning surgical navigation, vascular devices, and clinical AI.</div>
         </div>
 
-        <!-- Right: Tera Kull -->
         <div class="team-member is-supporting">
           <a href="https://www.linkedin.com/in/terakull" target="_blank" rel="noopener" style="text-decoration:none;">
             <div class="member-avatar">
@@ -1344,6 +1418,87 @@
         </div>
 
       </div>
+
+      <!-- TIER 2: Venture Partners & Leadership -->
+      <hr class="team-tier-divider">
+      <div class="team-tier-label">Venture Partners &amp; Leadership</div>
+      <div class="team-row">
+
+        <div class="team-member is-vp">
+          <a href="https://www.linkedin.com/in/mattgreenfield" target="_blank" rel="noopener" style="text-decoration:none;">
+            <div class="member-avatar">
+              <div class="member-initials">MG</div>
+            </div>
+          </a>
+          <div class="member-name">Matt Greenfield</div>
+          <div class="member-title">Venture Partner</div>
+          <div class="member-firm">Rethink Education Capital</div>
+        </div>
+
+        <div class="team-member is-vp">
+          <a href="https://www.linkedin.com/in/jamesbergin" target="_blank" rel="noopener" style="text-decoration:none;">
+            <div class="member-avatar">
+              <div class="member-initials">JB</div>
+            </div>
+          </a>
+          <div class="member-name">James Bergin</div>
+          <div class="member-title">Venture Partner</div>
+          <div class="member-firm">Johnson &amp; Johnson</div>
+        </div>
+
+        <div class="team-member is-vp">
+          <a href="https://www.linkedin.com/in/geoffreysmith" target="_blank" rel="noopener" style="text-decoration:none;">
+            <div class="member-avatar">
+              <div class="member-initials">GS</div>
+            </div>
+          </a>
+          <div class="member-name">Geoffrey Smith</div>
+          <div class="member-title">Advisory Partner</div>
+          <div class="member-firm">Digitalis Ventures</div>
+        </div>
+
+      </div>
+
+      <!-- TIER 3: Advisory Network -->
+      <hr class="team-tier-divider">
+      <div class="team-tier-label">Advisory Network — Domain Strength</div>
+      <div class="team-row advisory">
+
+        <div class="team-member is-advisory">
+          <a href="https://www.linkedin.com/in/harshmaheshwari" target="_blank" rel="noopener" style="text-decoration:none;">
+            <div class="member-avatar">
+              <div class="member-initials">HM</div>
+            </div>
+          </a>
+          <div class="member-name">Harsh Maheshwari</div>
+          <div class="member-title">AI &amp; Enterprise Software</div>
+          <div class="member-firm">Super{Set}</div>
+        </div>
+
+        <div class="team-member is-advisory">
+          <a href="https://www.linkedin.com/in/ricksmithbyram" target="_blank" rel="noopener" style="text-decoration:none;">
+            <div class="member-avatar">
+              <div class="member-initials">RS</div>
+            </div>
+          </a>
+          <div class="member-name">Rick Smith</div>
+          <div class="member-title">Health Services</div>
+          <div class="member-firm">Byram &amp; BioScrip</div>
+        </div>
+
+        <div class="team-member is-advisory">
+          <a href="https://www.linkedin.com/in/rijukhetarpal" target="_blank" rel="noopener" style="text-decoration:none;">
+            <div class="member-avatar">
+              <div class="member-initials">RK</div>
+            </div>
+          </a>
+          <div class="member-name">Riju Khetarpal</div>
+          <div class="member-title">AI &amp; Digital Health</div>
+          <div class="member-firm">Google Health</div>
+        </div>
+
+      </div>
+
     </div>
   </section>
 
@@ -1605,8 +1760,8 @@
   });
 
   gsap.to('.team-member', {
-    opacity: 1, y: 0, duration: 0.7, stagger: 0.2, ease: 'power3.out',
-    scrollTrigger: { trigger: '.team-grid', start: 'top 75%' }
+    opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'power3.out',
+    scrollTrigger: { trigger: '#team', start: 'top 75%' }
   });
 
   // Finale
