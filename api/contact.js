@@ -180,7 +180,7 @@ function buildEmail({ values, ip }) {
   const recipients = parseRecipients();
   const submittedAt = new Date().toISOString();
   const subjectName = values.company || values.name;
-  const subject = `New Validare Capital website inquiry — ${subjectName}`;
+  const subject = `New Validare Capital website inquiry - ${subjectName}`;
   const safeMessage = escapeHtml(values.message).replace(/\n/g, '<br>');
 
   const html = `
