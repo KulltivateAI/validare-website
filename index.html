@@ -759,22 +759,22 @@
     .team-tier-divider {
       border: none;
       border-top: 1px solid rgba(237,217,176,0.06);
-      margin: 72px auto 56px;
+      margin: 56px auto 40px;
       max-width: 900px;
     }
 
     .team-row {
       display: flex;
       justify-content: center;
-      gap: 48px;
+      gap: 40px;
       flex-wrap: wrap;
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 0 auto;
     }
 
     /* Tier 3 — advisory, even smaller */
     .team-row.advisory {
-      gap: 36px;
+      gap: 40px;
     }
 
     .team-member {
@@ -794,11 +794,11 @@
     }
 
     .team-member.is-vp {
-      flex: 0 0 180px;
+      flex: 0 0 200px;
     }
 
     .team-member.is-advisory {
-      flex: 0 0 140px;
+      flex: 0 0 200px;
     }
 
     /* Avatars */
@@ -824,14 +824,14 @@
     }
 
     .team-member.is-vp .member-avatar {
-      width: 72px;
-      height: 72px;
+      width: 96px;
+      height: 96px;
     }
 
     .team-member.is-advisory .member-avatar {
-      width: 56px;
-      height: 56px;
-      margin-bottom: 12px;
+      width: 88px;
+      height: 88px;
+      margin-bottom: 20px;
     }
 
     .member-avatar img {
@@ -850,8 +850,8 @@
     }
 
     .team-member.is-lead .member-initials { font-size: 36px; }
-    .team-member.is-vp .member-initials   { font-size: 18px; }
-    .team-member.is-advisory .member-initials { font-size: 14px; }
+    .team-member.is-vp .member-initials   { font-size: 24px; }
+    .team-member.is-advisory .member-initials { font-size: 22px; }
 
     .member-name {
       font-family: var(--display);
@@ -863,8 +863,8 @@
     }
 
     .team-member.is-lead .member-name     { font-size: 32px; margin-bottom: 6px; }
-    .team-member.is-vp .member-name       { font-size: 16px; }
-    .team-member.is-advisory .member-name { font-size: 13px; margin-bottom: 2px; }
+    .team-member.is-vp .member-name       { font-size: 18px; }
+    .team-member.is-advisory .member-name { font-size: 18px; }
 
     .member-title {
       font-family: var(--mono);
@@ -891,13 +891,13 @@
     }
 
     .team-member.is-vp .member-bio {
-      font-size: 12px;
-      max-width: 160px;
-      opacity: 0.4;
+      font-size: 13px;
+      max-width: 180px;
+      opacity: 0.45;
     }
 
     .team-member.is-advisory .member-bio {
-      display: none; /* advisory: name + firm only, no bio text */
+      display: none;
     }
 
     .member-firm {
@@ -908,6 +908,33 @@
       color: var(--parchment);
       opacity: 0.3;
       margin-top: 2px;
+    }
+
+    /* Connector: amber vertical stem below Gopal hub, above each tier row */
+    .team-connector {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 auto;
+      gap: 0;
+    }
+
+    .team-connector-stem {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(224,122,21,0.4), rgba(224,122,21,0.15));
+    }
+
+    .team-connector-bar {
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(224,122,21,0.25), transparent);
+      width: min(800px, 90vw);
+    }
+
+    .team-connector-stem-down {
+      width: 1px;
+      height: 32px;
+      background: linear-gradient(to bottom, rgba(224,122,21,0.15), transparent);
     }
 
     /* ─── CTA / FOOTER ─── */
@@ -1480,7 +1507,11 @@
       </div>
 
       <!-- TIER 2: Venture Partners & Leadership -->
-      <hr class="team-tier-divider">
+      <div class="team-connector">
+        <div class="team-connector-stem"></div>
+        <div class="team-connector-bar"></div>
+        <div class="team-connector-stem-down"></div>
+      </div>
       <div class="team-tier-label">Venture Partners &amp; Leadership</div>
       <div class="team-row">
 
@@ -1520,7 +1551,11 @@
       </div>
 
       <!-- TIER 3: Advisory Network -->
-      <hr class="team-tier-divider">
+      <div class="team-connector">
+        <div class="team-connector-stem"></div>
+        <div class="team-connector-bar"></div>
+        <div class="team-connector-stem-down"></div>
+      </div>
       <div class="team-tier-label">Advisory Network — Domain Strength</div>
       <div class="team-row advisory">
 
