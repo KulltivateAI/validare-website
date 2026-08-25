@@ -1263,8 +1263,9 @@
   // ─── SVG STROKE INIT — measure exact path lengths, set dash arrays ───
   function initStroke(el) {
     const len = el.getTotalLength ? el.getTotalLength() : 500;
-    el.style.strokeDasharray  = len;
-    el.style.strokeDashoffset = len;
+    const buf = len + 2; // +2px buffer — prevents Safari double-draw at dashoffset=0
+    el.style.strokeDasharray  = buf;
+    el.style.strokeDashoffset = buf;
     return len;
   }
 
