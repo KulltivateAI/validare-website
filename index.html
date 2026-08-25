@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validare Capital — Execution-Led Seed Capital</title>
+  <meta name="description" content="Seed-stage capital for founders who build with precision. Life sciences and data analytics.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <!-- OG / Social -->
+  <meta property="og:title" content="Validare Capital">
+  <meta property="og:description" content="Execution-led. Valuation-focused. Bold impact. Seed-stage capital for founders who build with precision.">
+  <meta property="og:image" content="/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://validarecap.com">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Validare Capital">
+  <meta name="twitter:description" content="Execution-led. Valuation-focused. Bold impact.">
+  <meta name="twitter:image" content="/og.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700;1,9..144,900&family=Geist:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- GSAP + ScrollTrigger + Lenis -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+  <style>
+    /* ─── RESET + TOKENS ─── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --green:      #1C3828;
+      --green-deep: #070C09;
+      --green-mid:  #0F1A12;
+      --green-card: #112016;
+      --parchment:  #EDD9B0;
+      --amber:      #E07A15;
+      --bone:       #F0EDE6;
+      --mono:       'JetBrains Mono', monospace;
+      --display:    'Fraunces', serif;
+      --body:       'Geist', sans-serif;
+    }
+
+    html { font-size: 16px; scroll-behavior: auto; }
+
+    body {
+      background: var(--green-deep);
+      color: var(--bone);
+      font-family: var(--body);
+      font-weight: 400;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    /* ─── GRAIN OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 128px 128px;
+    }
+
+    /* ─── SELECTION ─── */
+    ::selection { background: var(--amber); color: var(--green-deep); }
+
+
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 48px;
+      mix-blend-mode: normal;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo-svg {
+      width: 36px;
+      height: 36px;
+      opacity: 0;
+    }
+
+    .nav-wordmark {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      color: var(--parchment);
+      opacity: 0;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      text-decoration: none;
+      opacity: 0;
+      position: relative;
+      transition: color 0.2s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 1px;
+      background: var(--amber);
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a:hover { color: var(--amber); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 48px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      opacity: 0;
+      margin-bottom: 48px;
+    }
+
+    /* Main Logo SVG */
+    #hero-logo {
+      width: 160px;
+      height: 160px;
+      margin-bottom: 56px;
+      opacity: 0;
+    }
+
+    .hero-headline {
+      font-family: var(--display);
+      font-weight: 900;
+      font-size: clamp(48px, 13vw, 128px);
+      letter-spacing: -0.04em;
+      line-height: 1.0;
+      color: var(--parchment);
+      margin-bottom: 32px;
+      overflow: hidden;
+    }
+
+    .hero-headline .char {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(-24px);
+    }
+
+    .hero-headline .word-break {
+      display: block;
+    }
+
+    .hero-tagline {
+      font-family: var(--body);
+      font-weight: 300;
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--parchment);
+      opacity: 0;
+      margin-bottom: 12px;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-sub {
+      font-family: var(--body);
+      font-size: 15px;
+      color: var(--parchment);
+      opacity: 0;
+      margin-bottom: 64px;
+      max-width: 480px;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      border: 1px solid rgba(237, 217, 176, 0.3);
+      padding: 16px 40px;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transition: color 0.3s;
+    }
+
+    .hero-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--amber);
+      transform: translateX(-101%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hero-cta:hover { color: var(--green-deep); }
+    .hero-cta:hover::before { transform: translateX(0); }
+    .hero-cta:active { transform: scale(0.97); }
+    .hero-cta span { position: relative; z-index: 1; }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+    }
+
+    .scroll-indicator-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, rgba(237, 217, 176, 0.5), transparent);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-indicator-dot {
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 5px;
+      height: 5px;
+      background: var(--amber);
+      border-radius: 50%;
+      animation: scrollDrop 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollDrop {
+      0%   { top: -4px; opacity: 1; }
+      80%  { top: 48px; opacity: 0; }
+      100% { top: -4px; opacity: 0; }
+    }
+
+    .scroll-indicator-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      opacity: 0.4;
+    }
+
+    /* ─── TICKER ─── */
+    #ticker {
+      background: var(--green);
+      padding: 18px 0;
+      overflow: hidden;
+      border-top: 1px solid rgba(237, 217, 176, 0.06);
+      border-bottom: 1px solid rgba(237, 217, 176, 0.06);
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: ticker 50s linear infinite;
+    }
+
+    .ticker-track:hover { animation-play-state: paused; }
+
+    .ticker-item {
+      font-family: var(--body);
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      white-space: nowrap;
+      padding: 0 40px;
+    }
+
+    .ticker-dot {
+      color: var(--amber);
+    }
+
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ─── SECTION SHARED ─── */
+    section {
+      padding: 160px 48px;
+    }
+
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 24px;
+      opacity: 0;
+    }
+
+    .section-number {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--parchment);
+      opacity: 0.25;
+      margin-bottom: 8px;
+    }
+
+    /* ─── THESIS SECTION ─── */
+    #thesis {
+      background: var(--green-deep);
+    }
+
+    .thesis-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 96px;
+      align-items: start;
+    }
+
+    .thesis-quote {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(36px, 4vw, 52px);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--parchment);
+      clip-path: inset(0 0 100% 0);
+    }
+
+    .thesis-pillars {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .thesis-pillar {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .pillar-number {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--amber);
+      margin-bottom: 8px;
+    }
+
+    .pillar-title {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: 0.03em;
+      color: var(--parchment);
+      margin-bottom: 8px;
+    }
+
+    .pillar-body {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--parchment);
+      opacity: 0.55;
+      max-width: 380px;
+    }
+
+    /* ─── EDGE / FOUNDER SECTION ─── */
+    #edge {
+      background: var(--green-mid);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .edge-bg-number {
+      position: absolute;
+      top: 50%;
+      right: -40px;
+      transform: translateY(-50%);
+      font-family: var(--display);
+      font-weight: 900;
+      font-size: 320px;
+      color: var(--green);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .edge-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 96px;
+      align-items: start;
+      position: relative;
+      z-index: 1;
+    }
+
+    .edge-headline {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(40px, 5vw, 72px);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--parchment);
+      clip-path: inset(0 0 100% 0);
+    }
+
+    .edge-body {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--parchment);
+      opacity: 0;
+    }
+
+    .edge-body p { margin-bottom: 20px; opacity: 0.65; }
+    .edge-body p strong { opacity: 1; color: var(--parchment); font-weight: 500; }
+
+    .edge-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 48px;
+      padding-top: 48px;
+      border-top: 1px solid rgba(237, 217, 176, 0.1);
+      opacity: 0;
+    }
+
+    .stat-item { flex: 1; }
+
+    .stat-value {
+      font-family: var(--display);
+      font-weight: 900;
+      font-size: 48px;
+      color: var(--amber);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      opacity: 0.45;
+    }
+
+    /* ─── FOCUS / CARDS ─── */
+    #focus {
+      background: var(--green-deep);
+    }
+
+    .focus-header {
+      margin-bottom: 64px;
+    }
+
+    .focus-headline {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(40px, 5vw, 64px);
+      letter-spacing: -0.03em;
+      color: var(--parchment);
+      clip-path: inset(0 0 100% 0);
+    }
+
+    .focus-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .focus-card {
+      background: var(--green-card);
+      border: 1px solid rgba(237, 217, 176, 0.06);
+      padding: 56px 48px;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.4s ease,
+                  border-color 0.3s;
+    }
+
+    .focus-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--amber);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .focus-card:hover { 
+      transform: translateY(-4px); 
+      box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+    }
+    .focus-card:hover::after { opacity: 0.5; }
+
+    .card-bg-letter {
+      position: absolute;
+      top: -20px;
+      right: -10px;
+      font-family: var(--display);
+      font-weight: 900;
+      font-size: 200px;
+      color: var(--green);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.5;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-title {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 32px;
+      letter-spacing: -0.02em;
+      color: var(--parchment);
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-body {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--parchment);
+      opacity: 0.55;
+      max-width: 320px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-tag {
+      display: inline-block;
+      margin-top: 32px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--amber);
+      border: 1px solid var(--amber);
+      padding: 4px 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── PROCESS ─── */
+    #process {
+      background: var(--green-mid);
+    }
+
+    .process-header {
+      margin-bottom: 96px;
+    }
+
+    .process-headline {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(40px, 5vw, 64px);
+      letter-spacing: -0.03em;
+      color: var(--parchment);
+      clip-path: inset(0 0 100% 0);
+    }
+
+    .process-steps {
+      position: relative;
+    }
+
+    .process-line {
+      position: absolute;
+      left: 56px;
+      top: 24px;
+      bottom: 24px;
+      width: 1px;
+      background: rgba(237, 217, 176, 0.1);
+    }
+
+    .process-line-fill {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 0%;
+      background: var(--amber);
+      transition: height 0.1s linear;
+    }
+
+    .process-step {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 40px;
+      padding: 40px 0;
+      border-bottom: 1px solid rgba(237, 217, 176, 0.06);
+      opacity: 0;
+      transform: translateX(-16px);
+    }
+
+    .process-step:last-child { border-bottom: none; }
+
+    .step-num-wrap {
+      display: flex;
+      align-items: flex-start;
+      padding-top: 4px;
+    }
+
+    .step-num {
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      color: var(--parchment);
+      opacity: 0.3;
+      width: 28px;
+      text-align: center;
+      transition: color 0.3s, opacity 0.3s;
+    }
+
+    .step-num.active { color: var(--amber); opacity: 1; }
+
+    .step-content {}
+
+    .step-title {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: -0.01em;
+      color: var(--parchment);
+      margin-bottom: 8px;
+    }
+
+    .step-body {
+      font-size: 15px;
+      color: var(--parchment);
+      opacity: 0.5;
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    /* ─── TEAM ─── */
+    #team {
+      background: var(--green-deep);
+      text-align: center;
+    }
+
+    .team-headline {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(40px, 5vw, 64px);
+      letter-spacing: -0.03em;
+      color: var(--parchment);
+      margin-bottom: 80px;
+      clip-path: inset(0 0 100% 0);
+    }
+
+    .team-grid {
+      display: flex;
+      justify-content: center;
+      gap: 96px;
+    }
+
+    .team-member {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .member-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--green);
+      border: 1px solid rgba(237, 217, 176, 0.1);
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .member-initials {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--parchment);
+    }
+
+    .member-name {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: -0.01em;
+      color: var(--parchment);
+      margin-bottom: 4px;
+    }
+
+    .member-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 16px;
+    }
+
+    .member-bio {
+      font-size: 14px;
+      color: var(--parchment);
+      opacity: 0.45;
+      max-width: 280px;
+      line-height: 1.65;
+    }
+
+    /* ─── CTA / FOOTER ─── */
+    #finale {
+      background: var(--green-deep);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 160px 48px 80px;
+      position: relative;
+    }
+
+    .finale-eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      opacity: 0.4;
+      margin-bottom: 32px;
+      opacity: 0;
+    }
+
+    .finale-headline {
+      font-family: var(--display);
+      font-weight: 900;
+      font-style: italic;
+      font-size: clamp(48px, 13vw, 128px);
+      letter-spacing: -0.04em;
+      line-height: 1.0;
+      color: var(--parchment);
+      margin-bottom: 32px;
+      clip-path: inset(0 0 100% 0);
+    }
+
+    .finale-sub {
+      font-size: 16px;
+      color: var(--parchment);
+      opacity: 0.5;
+      margin-bottom: 48px;
+      max-width: 480px;
+      opacity: 0;
+    }
+
+    .finale-cta {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--green-deep);
+      background: var(--amber);
+      padding: 18px 48px;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+
+    .finale-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(224, 122, 21, 0.4);
+    }
+
+    .finale-cta:active { transform: scale(0.97); }
+
+    /* ─── FOOTER V LOGO ─── */
+    .footer-logo-wrap {
+      margin-top: 120px;
+      margin-bottom: 48px;
+      opacity: 0;
+    }
+
+    #footer-logo {
+      width: 220px;
+      height: 220px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      opacity: 0;
+    }
+
+    .footer-wordmark {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--parchment);
+    }
+
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      opacity: 0.25;
+    }
+
+    .footer-divider {
+      width: 1px;
+      height: 16px;
+      background: rgba(237, 217, 176, 0.2);
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0 16px;
+    }
+
+    /* ─── FOCUS AREA SEPARATOR ─── */
+    .amber-line {
+      width: 40px;
+      height: 1px;
+      background: var(--amber);
+      margin: 20px 0;
+      opacity: 0;
+    }
+
+    /* ─── REDUCED MOTION ─── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .ticker-track { animation: none; }
+    }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 768px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      section { padding: 96px 24px; }
+      #hero, #finale { padding: 120px 24px 80px; }
+      .thesis-grid, .edge-grid, .focus-cards, .team-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+      .thesis-quote { font-size: 32px; }
+      .edge-stats { flex-direction: column; gap: 32px; }
+      .process-line { left: 48px; }
+    }
+  </style>
+</head>
+<body>
+
+
+  <!-- ─── NAV ─── -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <svg class="nav-logo-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" id="nav-v-svg">
+        <circle cx="20" cy="20" r="19.25" stroke="#EDD9B0" stroke-width="1.5"
+          stroke-dasharray="1000" stroke-dashoffset="1000"/>
+        <path d="M9 13.5 L20 28 L31 13.5" stroke="#EDD9B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"
+          stroke-dasharray="1000" stroke-dashoffset="1000"/>
+        <path d="M14 13.5 L20 21.4 L26 13.5" stroke="#E07A15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"
+          stroke-dasharray="1000" stroke-dashoffset="1000"/>
+      </svg>
+      <span class="nav-wordmark">Validare</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#thesis">Thesis</a></li>
+      <li><a href="#focus">Focus</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#finale">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <section id="hero">
+    <div class="hero-eyebrow" id="hero-eyebrow">Est. 2024 &nbsp;·&nbsp; New England</div>
+
+    <!-- Hero Logo -->
+    <svg id="hero-logo" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle id="hl-circle" cx="80" cy="80" r="77" stroke="#EDD9B0" stroke-width="1.5"
+        stroke-dasharray="1000" stroke-dashoffset="1000"/>
+      <path id="hl-outer-left"  d="M36 54 L80 112" stroke="#EDD9B0" stroke-width="3" stroke-linecap="round" fill="none"
+        stroke-dasharray="1000" stroke-dashoffset="1000"/>
+      <path id="hl-outer-right" d="M124 54 L80 112" stroke="#EDD9B0" stroke-width="3" stroke-linecap="round" fill="none"
+        stroke-dasharray="1000" stroke-dashoffset="1000"/>
+      <path id="hl-inner" d="M56 54 L80 85.6 L104 54" stroke="#E07A15" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"
+        stroke-dasharray="1000" stroke-dashoffset="1000"/>
+    </svg>
+
+    <div class="hero-headline" id="hero-headline">
+      <span class="word-break" id="word-validare"></span>
+      <span class="word-break" id="word-capital"></span>
+    </div>
+
+    <p class="hero-tagline" id="hero-tagline">Execution-led. Valuation-focused. Bold impact.</p>
+    <p class="hero-sub" id="hero-sub">Seed-stage capital for founders who build with precision and move without apology.</p>
+    <a href="#finale" class="hero-cta" id="hero-cta"><span>Get in Touch</span></a>
+
+
+  </section>
+
+  <!-- ─── TICKER ─── -->
+  <div id="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">Life Sciences <span class="ticker-dot">·</span></span>
+      <span class="ticker-item">Data Analytics <span class="ticker-dot">·</span></span>
+      <span class="ticker-item">Lean Teams <span class="ticker-dot">·</span></span>
+      <span class="ticker-item">Bold Impact <span class="ticker-dot">·</span></span>
+      <span class="ticker-item">Seed Stage <span class="ticker-dot">·</span></span>
+      <span class="ticker-item">Execution First <span class="ticker-dot">·</span></span>
+      <span class="ticker-item">Valuation Precision <span class="ticker-dot">·</span></span>
+      <span class="ticker-item">Life Sciences <span class="ticker-dot">·</span></span>
+      <span class="ticker-item">Data Analytics <span class="ticker-dot">·</span></span>
+      <span class="ticker-item">Lean Teams <span class="ticker-dot">·</span></span>
+      <span class="ticker-item">Bold Impact <span class="ticker-dot">·</span></span>
+      <span class="ticker-item">Seed Stage <span class="ticker-dot">·</span></span>
+      <span class="ticker-item">Execution First <span class="ticker-dot">·</span></span>
+      <span class="ticker-item">Valuation Precision <span class="ticker-dot">·</span></span>
+    </div>
+  </div>
+
+  <!-- ─── THESIS ─── -->
+  <section id="thesis">
+    <div class="section-inner">
+      <div class="section-eyebrow">Our Investment Thesis</div>
+      <div class="thesis-grid">
+
+        <div>
+          <blockquote class="thesis-quote">
+            "We don't write checks.<br>We co-pilot."
+          </blockquote>
+        </div>
+
+        <div class="thesis-pillars">
+          <div class="thesis-pillar">
+            <div class="pillar-number">01 / EXECUTION</div>
+            <div class="pillar-title">From idea to traction — fast.</div>
+            <div class="pillar-body">We've built companies from fundamentals. We know which decisions compound and which detours cost years. Our founders get operational co-piloting, not passive capital.</div>
+          </div>
+          <div class="thesis-pillar">
+            <div class="pillar-number">02 / VALUATION</div>
+            <div class="pillar-title">Lean teams command asymmetric returns.</div>
+            <div class="pillar-body">Today's top companies are built with smaller teams and less capital than ever before. We see the valuation opportunity before the market does — and we act with precision.</div>
+          </div>
+          <div class="thesis-pillar">
+            <div class="pillar-number">03 / IMPACT</div>
+            <div class="pillar-title">The markets that can't wait.</div>
+            <div class="pillar-body">Life sciences and data analytics are not patient industries. The buyers who must adopt or be left behind create the exits. We invest where that urgency lives.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── EDGE ─── -->
+  <section id="edge">
+    <div class="edge-bg-number" aria-hidden="true">01</div>
+    <div class="section-inner">
+      <div class="section-eyebrow">The Founding Edge</div>
+      <div class="edge-grid">
+
+        <div>
+          <h2 class="edge-headline">Built from<br>fundamentals.</h2>
+          <div class="edge-stats">
+            <div class="stat-item">
+              <div class="stat-value">20+</div>
+              <div class="stat-label">Years cross-industry</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">3×</div>
+              <div class="stat-label">Founder, operator, investor</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">Seed</div>
+              <div class="stat-label">Stage only — precision over breadth</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="edge-body">
+          <p>Dr. Gopal Chopra's path from neurosurgery to venture capital isn't a career pivot — it's a coherent evolution. Surgery is an exercise in <strong>calibrated intervention</strong>. The same discipline applies when evaluating a founding team.</p>
+          <p>With an MBA from Duke Fuqua and two decades across clinical practice, M&amp;A investment banking, and advisory roles, Gopal evaluates technology not just by what it does today, but by <strong>the hurdles it can surmount and the markets it can command</strong>.</p>
+          <p>Validare's founders aren't looking for capital. They're looking for the colleague who has held the scalpel, sat in the boardroom, and knows exactly which decision they should make right now.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOCUS ─── -->
+  <section id="focus">
+    <div class="section-inner">
+      <div class="focus-header">
+        <div class="section-eyebrow">Investment Focus</div>
+        <h2 class="focus-headline">Where we<br>deploy capital.</h2>
+        <div class="amber-line"></div>
+      </div>
+      <div class="focus-cards">
+
+        <div class="focus-card">
+          <div class="card-bg-letter" aria-hidden="true">Ls</div>
+          <svg class="card-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="16" stroke="#E07A15" stroke-width="1.5" opacity="0.5"/>
+            <path d="M14 20 Q20 12 26 20 Q20 28 14 20Z" stroke="#EDD9B0" stroke-width="1.5" fill="none"/>
+          </svg>
+          <h3 class="card-title">Life Sciences</h3>
+          <p class="card-body">Proteomics, biotech, health data platforms, and healthcare-adjacent AI. Companies at the intersection of biology and technology where the science is ready and the market is urgent.</p>
+          <span class="card-tag">Seed Stage</span>
+        </div>
+
+        <div class="focus-card">
+          <div class="card-bg-letter" aria-hidden="true">Da</div>
+          <svg class="card-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="24" width="6" height="12" stroke="#E07A15" stroke-width="1.5" fill="none" opacity="0.5"/>
+            <rect x="17" y="16" width="6" height="20" stroke="#E07A15" stroke-width="1.5" fill="none" opacity="0.5"/>
+            <rect x="26" y="8" width="6" height="28" stroke="#EDD9B0" stroke-width="1.5" fill="none"/>
+          </svg>
+          <h3 class="card-title">Data Analytics</h3>
+          <p class="card-body">AI-enabled workflows, intelligent infrastructure, vocational technology, and data platforms that create defensible moats. Companies where data is the durable competitive advantage.</p>
+          <span class="card-tag">Seed Stage</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PROCESS ─── -->
+  <section id="process">
+    <div class="section-inner">
+      <div class="process-header">
+        <div class="section-eyebrow">How We Work</div>
+        <h2 class="process-headline">The intervention<br>methodology.</h2>
+      </div>
+      <div class="process-steps" id="process-steps">
+        <div class="process-line">
+          <div class="process-line-fill" id="process-line-fill"></div>
+        </div>
+
+        <div class="process-step">
+          <div class="step-num-wrap">
+            <div class="step-num">01</div>
+          </div>
+          <div class="step-content">
+            <div class="step-title">Identify</div>
+            <div class="step-body">Companies that can be built quickly and efficiently with lean teams. Technologies that address critical market needs where buyers cannot afford to wait.</div>
+          </div>
+        </div>
+
+        <div class="process-step">
+          <div class="step-num-wrap">
+            <div class="step-num">02</div>
+          </div>
+          <div class="step-content">
+            <div class="step-title">Evaluate</div>
+            <div class="step-body">Technology capability, market applicability, and hurdle surmountability. We assess the insight of the technology — not just the mechanism, but the real-world path to adoption.</div>
+          </div>
+        </div>
+
+        <div class="process-step">
+          <div class="step-num-wrap">
+            <div class="step-num">03</div>
+          </div>
+          <div class="step-content">
+            <div class="step-title">Co-Invest</div>
+            <div class="step-body">Capital plus operational co-piloting. We've been the CEO, the advisor, the M&A intermediary. Our founders get a colleague who has made every one of their decisions before.</div>
+          </div>
+        </div>
+
+        <div class="process-step">
+          <div class="step-num-wrap">
+            <div class="step-num">04</div>
+          </div>
+          <div class="step-content">
+            <div class="step-title">Accelerate</div>
+            <div class="step-body">Strategic insight for board communications, fundraising structure, pivots, and pilots. Where should we do our POV? How do we structure the next round? We know these answers.</div>
+          </div>
+        </div>
+
+        <div class="process-step">
+          <div class="step-num-wrap">
+            <div class="step-num">05</div>
+          </div>
+          <div class="step-content">
+            <div class="step-title">Exit</div>
+            <div class="step-body">High-value exits to strategics who see the threat. Large incumbents in life sciences and data analytics cannot be left behind — and their urgency creates the premium we seek.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── TEAM ─── -->
+  <section id="team">
+    <div class="section-inner">
+      <div class="section-eyebrow" style="text-align:center">The Partners</div>
+      <h2 class="team-headline">The people<br>behind the capital.</h2>
+      <div class="team-grid">
+
+        <div class="team-member">
+          <div class="member-avatar">
+            <div class="member-initials">GC</div>
+          </div>
+          <div class="member-name">Dr. Gopal Chopra</div>
+          <div class="member-title">Founding Partner</div>
+          <div class="member-bio">Neurosurgeon. Healthcare entrepreneur. Duke Fuqua MBA. Two decades across clinical practice, investment banking, and venture — building from fundamentals at every stage.</div>
+        </div>
+
+        <div class="team-member">
+          <div class="member-avatar">
+            <div class="member-initials">TK</div>
+          </div>
+          <div class="member-name">Tera Kull</div>
+          <div class="member-title">Principal</div>
+          <div class="member-bio">Operator-investor with a portfolio eye. Brings strategic execution and LP relationship discipline to Validare's growing fund and founder network.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FINALE / FOOTER ─── -->
+  <section id="finale">
+    <div class="finale-eyebrow" id="finale-eyebrow">Founders &amp; Co-Investors Welcome</div>
+    <h2 class="finale-headline" id="finale-headline">Back the bold.</h2>
+    <p class="finale-sub" id="finale-sub">Applications from founders and co-investors welcome. We respond to every message personally.</p>
+    <a href="mailto:hello@validarecap.com" class="finale-cta" id="finale-cta">Get in Touch</a>
+
+    <div class="footer-logo-wrap" id="footer-logo-wrap">
+      <svg id="footer-logo" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle id="fl-circle" cx="110" cy="110" r="107" stroke="#EDD9B0" stroke-width="1"
+          stroke-dasharray="1000" stroke-dashoffset="1000" opacity="0.2"/>
+        <path id="fl-outer-left"  d="M50 75 L110 155" stroke="#EDD9B0" stroke-width="2.5" stroke-linecap="round" fill="none"
+          stroke-dasharray="1000" stroke-dashoffset="1000" opacity="0.25"/>
+        <path id="fl-outer-right" d="M170 75 L110 155" stroke="#EDD9B0" stroke-width="2.5" stroke-linecap="round" fill="none"
+          stroke-dasharray="1000" stroke-dashoffset="1000" opacity="0.25"/>
+        <path id="fl-inner" d="M78 75 L110 117.8 L142 75" stroke="#E07A15" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"
+          stroke-dasharray="1000" stroke-dashoffset="1000"/>
+      </svg>
+    </div>
+
+    <div class="footer-bottom" id="footer-bottom">
+      <div class="footer-wordmark">Validare Capital</div>
+      <div class="footer-copy">
+        New England
+        <span class="footer-divider"></span>
+        © 2026 Validare Capital
+        <span class="footer-divider"></span>
+        hello@validarecap.com
+      </div>
+    </div>
+  </section>
+
+
+  <script>
+  // ─── LENIS SMOOTH SCROLL ───
+  const lenis = new Lenis({ duration: 1.1, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add(time => lenis.raf(time * 1000));
+  gsap.ticker.lagSmoothing(0);
+
+  // ─── REGISTER SCROLLTRIGGER ───
+  gsap.registerPlugin(ScrollTrigger);
+
+
+
+  // ─── SPLIT HEADLINE TEXT INTO CHAR SPANS ───
+  function buildCharSpans(elementId, text) {
+    const el = document.getElementById(elementId);
+    if (!el) return [];
+    el.innerHTML = '';
+    const chars = [];
+    for (let i = 0; i < text.length; i++) {
+      const span = document.createElement('span');
+      span.className = 'char';
+      span.textContent = text[i] === ' ' ? '\u00A0' : text[i];
+      el.appendChild(span);
+      chars.push(span);
+    }
+    return chars;
+  }
+
+  const validareChars = buildCharSpans('word-validare', 'VALIDARE');
+  const capitalChars  = buildCharSpans('word-capital',  'CAPITAL');
+  const allChars = [...validareChars, ...capitalChars];
+
+  // ─── SVG STROKE INIT — measure exact path lengths, set dash arrays ───
+  function initStroke(el) {
+    const len = el.getTotalLength ? el.getTotalLength() : 500;
+    el.style.strokeDasharray  = len;
+    el.style.strokeDashoffset = len;
+    return len;
+  }
+
+  const hlCircle     = document.getElementById('hl-circle');
+  const hlOuterLeft  = document.getElementById('hl-outer-left');
+  const hlOuterRight = document.getElementById('hl-outer-right');
+  const hlInner      = document.getElementById('hl-inner');
+
+  initStroke(hlCircle);
+  initStroke(hlOuterLeft);
+  initStroke(hlOuterRight);
+  initStroke(hlInner);
+
+  document.querySelectorAll('#nav-v-svg circle, #nav-v-svg path').forEach(initStroke);
+  ['fl-circle','fl-outer-left','fl-outer-right','fl-inner'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) initStroke(el);
+  });
+
+  // ─── HERO LOGO ASSEMBLY ───
+  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+  gsap.set('#hero-logo', { opacity: 1 });
+
+  // Circle ring traces slowly — sets the stage
+  tl.to(hlCircle, { strokeDashoffset: 0, duration: 1.6, ease: 'power2.inOut' }, 0.2)
+
+  // Both outer V strokes draw together, perfectly in sync
+  .to(hlOuterLeft,  { strokeDashoffset: 0, duration: 1.1, ease: 'power3.inOut' }, 0.8)
+  .to(hlOuterRight, { strokeDashoffset: 0, duration: 1.1, ease: 'power3.inOut' }, 0.8)
+
+  // Inner amber V arrives last with a gentle settle
+  .to(hlInner, { strokeDashoffset: 0, duration: 0.8, ease: 'back.out(1.2)' }, 1.7)
+
+  // Soft amber glow blooms once
+  .fromTo('#hero-logo',
+    { filter: 'drop-shadow(0 0 0px rgba(224,122,21,0))' },
+    { filter: 'drop-shadow(0 0 28px rgba(224,122,21,0.4))', duration: 0.6, yoyo: true, repeat: 1, ease: 'power2.inOut' }, 2.2)
+
+  // Eyebrow
+  .to('#hero-eyebrow', { opacity: 0.4, duration: 0.6 }, 2.4)
+
+  // Characters cascade in
+  .to(allChars, {
+    opacity: 1,
+    y: 0,
+    duration: 0.55,
+    stagger: 0.04,
+    ease: 'power3.out'
+  }, 2.5)
+
+  // Tagline + sub + CTA
+  .to('#hero-tagline', { opacity: 0.7, duration: 0.7 }, 3.2)
+  .to('#hero-sub',     { opacity: 0.45, duration: 0.6 }, 3.4)
+  .to('#hero-cta',     { opacity: 1, duration: 0.5 }, 3.6)
+
+  // Nav fades in while logo is drawing
+  .to('.nav-logo-svg',  { opacity: 1, duration: 0.5 }, 0.2)
+  .to('.nav-wordmark',  { opacity: 1, duration: 0.5 }, 0.5)
+  .to('.nav-links a',   { opacity: 0.7, duration: 0.4, stagger: 0.07 }, 0.7);
+
+  // Nav logo draws in sync
+  gsap.to('#nav-v-svg circle',            { strokeDashoffset: 0, duration: 1.4, ease: 'power2.inOut', delay: 0.3 });
+  gsap.to('#nav-v-svg path:nth-child(2)', { strokeDashoffset: 0, duration: 1.0, ease: 'power3.inOut', delay: 0.9 });
+  gsap.to('#nav-v-svg path:nth-child(3)', { strokeDashoffset: 0, duration: 1.0, ease: 'power3.inOut', delay: 0.9 });
+  gsap.to('#nav-v-svg path:nth-child(4)', { strokeDashoffset: 0, duration: 0.7, ease: 'back.out(1.2)', delay: 1.8 });
+
+  // ─── SECTION REVEALS ───
+
+  // Thesis quote
+  gsap.to('.thesis-quote', {
+    clipPath: 'inset(0 0 0% 0)',
+    duration: 0.9,
+    ease: 'power3.out',
+    scrollTrigger: { trigger: '.thesis-quote', start: 'top 80%' }
+  });
+
+  gsap.to('.thesis-pillar', {
+    opacity: 1, y: 0, duration: 0.7, stagger: 0.15, ease: 'power3.out',
+    scrollTrigger: { trigger: '.thesis-pillars', start: 'top 75%' }
+  });
+
+  gsap.to('.section-eyebrow', {
+    opacity: 1, y: 0, duration: 0.6, stagger: 0.1,
+    scrollTrigger: { trigger: '.section-eyebrow', start: 'top 85%' }
+  });
+
+  // Edge section
+  gsap.to('.edge-headline', {
+    clipPath: 'inset(0 0 0% 0)',
+    duration: 0.9, ease: 'power3.out',
+    scrollTrigger: { trigger: '.edge-headline', start: 'top 80%' }
+  });
+
+  gsap.to('.edge-body', {
+    opacity: 1, duration: 0.8,
+    scrollTrigger: { trigger: '.edge-body', start: 'top 75%' }
+  });
+
+  gsap.to('.edge-stats', {
+    opacity: 1, duration: 0.8,
+    scrollTrigger: { trigger: '.edge-stats', start: 'top 85%' }
+  });
+
+  // Focus cards
+  gsap.to('.focus-headline', {
+    clipPath: 'inset(0 0 0% 0)',
+    duration: 0.9, ease: 'power3.out',
+    scrollTrigger: { trigger: '.focus-headline', start: 'top 80%' }
+  });
+
+  gsap.to('.amber-line', {
+    opacity: 1, width: '40px', duration: 0.6,
+    scrollTrigger: { trigger: '.amber-line', start: 'top 85%' }
+  });
+
+  gsap.to('.focus-card', {
+    opacity: 1, y: 0, duration: 0.7, stagger: 0.15, ease: 'power3.out',
+    scrollTrigger: { trigger: '.focus-cards', start: 'top 75%' }
+  });
+
+  // Process headline
+  gsap.to('.process-headline', {
+    clipPath: 'inset(0 0 0% 0)',
+    duration: 0.9, ease: 'power3.out',
+    scrollTrigger: { trigger: '.process-headline', start: 'top 80%' }
+  });
+
+  // Process steps
+  gsap.to('.process-step', {
+    opacity: 1, x: 0, duration: 0.6, stagger: 0.12, ease: 'power3.out',
+    scrollTrigger: { trigger: '#process-steps', start: 'top 75%' }
+  });
+
+  // Process line fills smoothly on scroll via scrub
+  gsap.to('#process-line-fill', {
+    height: '100%',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#process-steps',
+      start: 'top 60%',
+      end: 'bottom 50%',
+      scrub: 1,
+    }
+  });
+
+  // Step numbers light up as each step enters viewport
+  document.querySelectorAll('.process-step').forEach((step) => {
+    const num = step.querySelector('.step-num');
+    ScrollTrigger.create({
+      trigger: step,
+      start: 'top 65%',
+      onEnter:     () => num.classList.add('active'),
+      onLeaveBack: () => num.classList.remove('active'),
+    });
+  });
+
+  // Team
+  gsap.to('.team-headline', {
+    clipPath: 'inset(0 0 0% 0)',
+    duration: 0.9, ease: 'power3.out',
+    scrollTrigger: { trigger: '.team-headline', start: 'top 80%' }
+  });
+
+  gsap.to('.team-member', {
+    opacity: 1, y: 0, duration: 0.7, stagger: 0.2, ease: 'power3.out',
+    scrollTrigger: { trigger: '.team-grid', start: 'top 75%' }
+  });
+
+  // Finale
+  gsap.to('#finale-eyebrow', {
+    opacity: 0.4, duration: 0.6,
+    scrollTrigger: { trigger: '#finale', start: 'top 80%' }
+  });
+
+  gsap.to('#finale-headline', {
+    clipPath: 'inset(0 0 0% 0)',
+    duration: 1.1, ease: 'power3.out',
+    scrollTrigger: { trigger: '#finale-headline', start: 'top 80%' }
+  });
+
+  gsap.to('#finale-sub', {
+    opacity: 0.5, duration: 0.7,
+    scrollTrigger: { trigger: '#finale-sub', start: 'top 85%' }
+  });
+
+  gsap.to('#finale-cta', {
+    opacity: 1, duration: 0.5,
+    scrollTrigger: { trigger: '#finale-cta', start: 'top 90%' }
+  });
+
+  // Footer V assembly
+  ScrollTrigger.create({
+    trigger: '#footer-logo-wrap',
+    start: 'top 85%',
+    onEnter: () => {
+      gsap.to('#footer-logo-wrap', { opacity: 1, duration: 0.3 });
+      gsap.to('#fl-circle',      { strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut', delay: 0.1 });
+      gsap.to('#fl-outer-left',  { strokeDashoffset: 0, duration: 0.9, delay: 0.4 });
+      gsap.to('#fl-outer-right', { strokeDashoffset: 0, duration: 0.9, delay: 0.4 });
+      gsap.to('#fl-inner',       { strokeDashoffset: 0, duration: 0.8, delay: 0.85, ease: 'back.out(1.4)' });
+      gsap.to('#footer-bottom',  { opacity: 1, duration: 0.6, delay: 1.4 });
+    }
+  });
+
+  // ─── HERO SCROLL PARALLAX ───
+  gsap.to('#hero .hero-headline, #hero .hero-tagline, #hero .hero-sub, #hero .hero-cta, #hero-logo, #hero-eyebrow', {
+    y: -60,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true
+    }
+  });
+
+  // ─── NAV SCROLL STATE ───
+  ScrollTrigger.create({
+    start: 'top -80',
+    onUpdate: self => {
+      const nav = document.querySelector('nav');
+      if (self.direction === 1 && scrollY > 80) {
+        nav.style.background = 'rgba(7, 12, 9, 0.85)';
+        nav.style.backdropFilter = 'blur(16px)';
+        nav.style.borderBottom = '1px solid rgba(237, 217, 176, 0.05)';
+      } else if (scrollY < 80) {
+        nav.style.background = 'transparent';
+        nav.style.backdropFilter = 'none';
+        nav.style.borderBottom = 'none';
+      }
+    }
+  });
+
+  // ─── SMOOTH ANCHOR SCROLL ───
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) lenis.scrollTo(target, { offset: -80, duration: 1.4 });
+    });
+  });
+
+  </script>
+</body>
+</html>
