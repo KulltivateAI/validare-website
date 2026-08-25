@@ -1005,6 +1005,124 @@
 
     .finale-cta:active { transform: scale(0.97); }
 
+
+
+    .contact-form {
+      width: min(720px, 100%);
+      margin: 0 auto;
+      opacity: 0;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .contact-field {
+      display: block;
+      text-align: left;
+      margin-bottom: 16px;
+    }
+
+    .contact-field span {
+      display: block;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 8px;
+    }
+
+    .contact-field input,
+    .contact-field select,
+    .contact-field textarea {
+      width: 100%;
+      border: 1px solid rgba(237, 217, 176, 0.14);
+      border-radius: 0;
+      background: rgba(17, 32, 22, 0.72);
+      color: var(--parchment);
+      font-family: var(--body);
+      font-size: 15px;
+      line-height: 1.5;
+      padding: 15px 16px;
+      outline: none;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .contact-field select {
+      background-image: linear-gradient(45deg, transparent 50%, var(--amber) 50%),
+                        linear-gradient(135deg, var(--amber) 50%, transparent 50%);
+      background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+      background-size: 5px 5px, 5px 5px;
+      background-repeat: no-repeat;
+    }
+
+    .contact-field textarea {
+      resize: vertical;
+      min-height: 150px;
+    }
+
+    .contact-field input::placeholder,
+    .contact-field textarea::placeholder {
+      color: rgba(237, 217, 176, 0.32);
+    }
+
+    .contact-field input:focus,
+    .contact-field select:focus,
+    .contact-field textarea:focus {
+      border-color: rgba(224, 122, 21, 0.75);
+      background: rgba(17, 32, 22, 0.92);
+      box-shadow: 0 0 0 3px rgba(224, 122, 21, 0.12);
+    }
+
+    .contact-submit {
+      border: 0;
+      cursor: pointer;
+      margin-top: 8px;
+      opacity: 1;
+    }
+
+    .contact-submit[disabled] {
+      cursor: wait;
+      opacity: 0.72 !important;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .contact-note,
+    .contact-status {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      opacity: 0.32;
+      margin-top: 18px;
+    }
+
+    .contact-status {
+      min-height: 18px;
+      opacity: 0.8;
+      color: var(--amber);
+    }
+
+    .contact-status.is-error {
+      color: #fca5a5;
+    }
+
+    .contact-hp {
+      position: absolute;
+      left: -10000px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
     /* ─── FOOTER V LOGO ─── */
     .footer-logo-wrap {
       margin-top: 120px;
@@ -1092,6 +1210,8 @@
       .team-row { gap: 32px; }
       .team-member.is-vp { flex: 0 0 140px; }
       .team-member.is-advisory { flex: 0 0 100px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 0; }
+      .contact-field input, .contact-field select, .contact-field textarea { font-size: 16px; }
       .thesis-quote { font-size: 32px; }
       .edge-stats { flex-direction: column; gap: 32px; }
       .process-line { left: 48px; }
@@ -1628,7 +1748,46 @@
     <div class="finale-eyebrow" id="finale-eyebrow">Founders &amp; Co-Investors Welcome</div>
     <h2 class="finale-headline" id="finale-headline">Back the bold.</h2>
     <p class="finale-sub" id="finale-sub">Applications from founders and co-investors welcome. We respond to every message personally.</p>
-    <a href="mailto:hello@validarecap.com" class="finale-cta" id="finale-cta">Get in Touch</a>
+    <form class="contact-form" id="contact-form" action="/api/contact" method="post" novalidate>
+      <input type="hidden" name="startedAt" id="contact-started-at" value="">
+      <div class="contact-hp" aria-hidden="true">
+        <label for="company_website">Website</label>
+        <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off">
+      </div>
+      <div class="contact-grid">
+        <label class="contact-field">
+          <span>Name *</span>
+          <input name="name" type="text" autocomplete="name" required maxlength="120">
+        </label>
+        <label class="contact-field">
+          <span>Email *</span>
+          <input name="email" type="email" autocomplete="email" required maxlength="254">
+        </label>
+      </div>
+      <div class="contact-grid">
+        <label class="contact-field">
+          <span>Company</span>
+          <input name="company" type="text" autocomplete="organization" maxlength="160">
+        </label>
+        <label class="contact-field">
+          <span>I am a</span>
+          <select name="role">
+            <option value="Founder">Founder</option>
+            <option value="Co-investor">Co-investor</option>
+            <option value="LP / allocator">LP / allocator</option>
+            <option value="Operator / advisor">Operator / advisor</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+      </div>
+      <label class="contact-field">
+        <span>Message *</span>
+        <textarea name="message" rows="5" required maxlength="4000" placeholder="Tell us what you are building, investing in, or hoping to discuss."></textarea>
+      </label>
+      <button type="submit" class="finale-cta contact-submit" id="finale-cta">Send Message</button>
+      <p class="contact-note">Your message is sent securely to Validare's team. We respond personally.</p>
+      <p class="contact-status" id="contact-status" role="status" aria-live="polite"></p>
+    </form>
 
     <div class="footer-logo-wrap" id="footer-logo-wrap">
       <svg id="footer-logo" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1906,9 +2065,9 @@
     scrollTrigger: { trigger: '#finale-sub', start: 'top 85%' }
   });
 
-  gsap.to('#finale-cta', {
+  gsap.to('#contact-form', {
     opacity: 1, duration: 0.5,
-    scrollTrigger: { trigger: '#finale-cta', start: 'top 90%' }
+    scrollTrigger: { trigger: '#contact-form', start: 'top 90%' }
   });
 
   // Footer V assembly
@@ -1962,6 +2121,50 @@
       if (target) lenis.scrollTo(target, { offset: -80, duration: 1.4 });
     });
   });
+
+
+  // ─── CONTACT FORM ───
+  const contactForm = document.getElementById('contact-form');
+  const contactStatus = document.getElementById('contact-status');
+  const contactStartedAt = document.getElementById('contact-started-at');
+  if (contactStartedAt) contactStartedAt.value = String(Date.now());
+
+  if (contactForm && contactStatus) {
+    contactForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const submit = contactForm.querySelector('button[type="submit"]');
+      contactStatus.textContent = '';
+      contactStatus.classList.remove('is-error');
+      if (submit) {
+        submit.disabled = true;
+        submit.textContent = 'Sending...';
+      }
+
+      try {
+        const formData = new FormData(contactForm);
+        const response = await fetch(contactForm.action, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(formData),
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || result.ok === false) {
+          throw new Error(result.message || 'We could not send your message. Please try again.');
+        }
+        contactStatus.textContent = result.message || 'Thank you — your message has been received.';
+        contactForm.reset();
+        if (contactStartedAt) contactStartedAt.value = String(Date.now());
+      } catch (error) {
+        contactStatus.textContent = error.message || 'We could not send your message. Please try again.';
+        contactStatus.classList.add('is-error');
+      } finally {
+        if (submit) {
+          submit.disabled = false;
+          submit.textContent = 'Send Message';
+        }
+      }
+    });
+  }
 
   </script>
 </body>
