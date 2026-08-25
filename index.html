@@ -715,7 +715,8 @@
     .team-grid {
       display: flex;
       justify-content: center;
-      gap: 96px;
+      gap: 64px;
+      flex-wrap: wrap;
     }
 
     .team-member {
@@ -724,15 +725,24 @@
     }
 
     .member-avatar {
-      width: 80px;
-      height: 80px;
+      width: 88px;
+      height: 88px;
       border-radius: 50%;
       background: var(--green);
-      border: 1px solid rgba(237, 217, 176, 0.1);
+      border: 1.5px solid rgba(237, 217, 176, 0.15);
       margin: 0 auto 24px;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
+    }
+
+    .member-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
     }
 
     .member-initials {
@@ -1230,21 +1240,36 @@
       <div class="team-grid">
 
         <div class="team-member">
-          <div class="member-avatar">
-            <div class="member-initials">GC</div>
-          </div>
-          <div class="member-name">Dr. Gopal Chopra</div>
-          <div class="member-title">Founding Partner</div>
-          <div class="member-bio">Neurosurgeon. Healthcare entrepreneur. Duke Fuqua MBA. Two decades across clinical practice, investment banking, and venture — building from fundamentals at every stage.</div>
+          <a href="https://www.linkedin.com/in/gopalkchopra" target="_blank" rel="noopener" style="text-decoration:none;">
+            <div class="member-avatar">
+              <div class="member-initials">GC</div>
+            </div>
+          </a>
+          <div class="member-name">Dr. Gopal K. Chopra</div>
+          <div class="member-title">Founding General Partner</div>
+          <div class="member-bio">Neurosurgeon, prior Stanford &amp; Duke faculty, and former Lazard banker who advised on more than $30B in M&amp;A, IPOs, and private financings. Built three med/health-tech companies to major exits. Creator of patents spanning surgical navigation, vascular devices, and clinical AI.</div>
         </div>
 
         <div class="team-member">
-          <div class="member-avatar">
-            <div class="member-initials">TK</div>
-          </div>
+          <a href="https://www.linkedin.com/in/wbolivar" target="_blank" rel="noopener" style="text-decoration:none;">
+            <div class="member-avatar">
+              <img src="https://visionfundassetsstagesa.z19.web.core.windows.net/3840/wil-bolivar-profile-photo.png" alt="Wil Bolivar" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'member-initials\'>WB</div>'">
+            </div>
+          </a>
+          <div class="member-name">Wil Bolivar</div>
+          <div class="member-title">Advisory Partner — Technology &amp; AI</div>
+          <div class="member-bio">Partner &amp; CTO at SoftBank Investment Advisers. Led AI strategy, technical diligence, and cybersecurity across a global portfolio. Board observer at Arkose Labs. Advised Zoom and LinkedIn on infrastructure and go-to-market ahead of IPO.</div>
+        </div>
+
+        <div class="team-member">
+          <a href="https://www.linkedin.com/in/terakull" target="_blank" rel="noopener" style="text-decoration:none;">
+            <div class="member-avatar">
+              <img src="https://labcentral-site.transforms.svdcdn.com/production/labcentralorg/images/people/employee-headshots-24.jpg?w=256&h=256&auto=compress%2Cformat&fit=crop" alt="Tera Kull" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'member-initials\'>TK</div>'">
+            </div>
+          </a>
           <div class="member-name">Tera Kull</div>
           <div class="member-title">Principal</div>
-          <div class="member-bio">Operator-investor with a portfolio eye. Brings strategic execution and LP relationship discipline to Validare's growing fund and founder network.</div>
+          <div class="member-bio">Senior Director of People Strategy &amp; Culture at LabCentral. Brings operational discipline, LP relationship management, and founder network development to Validare's growing portfolio.</div>
         </div>
 
       </div>
