@@ -1465,7 +1465,33 @@
   <!-- ─── TEAM ─── -->
   <section id="team">
     <div class="section-inner">
-      <div class="section-eyebrow" style="color:var(--amber);opacity:1;">Leadership &amp; Partners</div>
+      <div class="section-eyebrow" style="color:var(--amber);opacity:1;text-align:left;">Leadership &amp; Partners</div>
+      <h2 class="team-headline" style="text-align:left;margin-bottom:32px;">Built by operators.<br>Guided by pattern.</h2>
+      <blockquote style="
+        font-family: var(--display);
+        font-weight: 300;
+        font-style: italic;
+        font-size: clamp(16px, 2vw, 22px);
+        color: var(--parchment);
+        opacity: 0.65;
+        max-width: 680px;
+        line-height: 1.6;
+        letter-spacing: 0.01em;
+        margin: 0 0 72px 0;
+        padding-left: 24px;
+        border-left: 2px solid var(--amber);
+      ">"I recognize disruptive fundamentals and how that can transform markets. I believe it will be the domain experts that define and create the new intelligence first economy."
+        <footer style="
+          font-family: var(--mono);
+          font-style: normal;
+          font-size: 10px;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          color: var(--amber);
+          opacity: 0.7;
+          margin-top: 16px;
+        ">— Dr. Gopal K. Chopra, Founding General Partner</footer>
+      </blockquote>
 
       <!-- TIER 1: Hub-and-spoke — Gopal center -->
       <div class="team-tier-label">Founding Leadership</div>
@@ -1848,6 +1874,11 @@
   });
 
   // Team
+  gsap.to('.team-headline', {
+    clipPath: 'inset(0 0 0% 0)',
+    duration: 0.9, ease: 'power3.out',
+    scrollTrigger: { trigger: '#team', start: 'top 80%' }
+  });
   gsap.to('.team-tier-label', {
     opacity: 1, duration: 0.6,
     scrollTrigger: { trigger: '#team', start: 'top 80%' }
