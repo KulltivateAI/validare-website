@@ -44,6 +44,8 @@ function isAllowedOrigin(req) {
     return (
       host === 'validarecap.com' ||
       host === 'www.validarecap.com' ||
+      host === 'validarecapital.com' ||
+      host === 'www.validarecapital.com' ||
       host === 'localhost' ||
       host === '127.0.0.1' ||
       host.endsWith('.vercel.app')
