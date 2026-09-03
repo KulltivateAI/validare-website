@@ -120,7 +120,7 @@
 
     .nav-links {
       display: flex;
-      gap: 40px;
+      gap: 34px;
       list-style: none;
     }
 
@@ -737,21 +737,21 @@
       overflow: hidden;
       background: linear-gradient(135deg, rgba(15, 32, 24, 0.96), rgba(11, 24, 18, 0.98));
       border: 1px solid rgba(237, 217, 176, 0.12);
-      padding: 34px clamp(24px, 5vw, 48px);
+      padding: 38px clamp(24px, 5vw, 52px);
       box-shadow: 0 28px 72px rgba(0, 0, 0, 0.24);
-      text-align: left;
+      text-align: center;
     }
 
     .strategic-lp-topline {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 32px;
+      flex-direction: column-reverse;
+      align-items: center;
+      gap: 22px;
       margin-bottom: 26px;
     }
 
     .strategic-lp-logo {
-      width: min(220px, 42vw);
+      width: min(250px, 58vw);
       height: auto;
       display: block;
       filter: saturate(1.05);
@@ -778,7 +778,7 @@
 
     .strategic-lp-body {
       max-width: 520px;
-      margin: 0;
+      margin: 0 auto;
       font-size: 15px;
       line-height: 1.7;
       color: var(--parchment);
@@ -787,17 +787,20 @@
 
     .strategic-lp-rep {
       display: grid;
-      grid-template-columns: 72px 1fr;
+      grid-template-columns: 82px minmax(0, 1fr);
       gap: 18px;
       align-items: center;
+      justify-content: center;
+      max-width: 430px;
       border-top: 1px solid rgba(237, 217, 176, 0.1);
-      margin-top: 28px;
+      margin: 28px auto 0;
       padding-top: 22px;
+      text-align: left;
     }
 
     .strategic-lp-rep img {
-      width: 72px;
-      height: 72px;
+      width: 82px;
+      height: 82px;
       border-radius: 50%;
       object-fit: cover;
       border: 1px solid rgba(237, 217, 176, 0.18);
@@ -1308,8 +1311,28 @@
 
     /* ─── MOBILE ─── */
     @media (max-width: 768px) {
-      nav { padding: 20px 24px; }
-      .nav-links { display: none; }
+      nav {
+        padding: 16px 18px 12px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        background: linear-gradient(to bottom, rgba(7, 12, 9, 0.94), rgba(7, 12, 9, 0.72), rgba(7, 12, 9, 0));
+      }
+      .nav-logo { justify-content: center; }
+      .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px 15px;
+        overflow: visible;
+        padding: 0 4px 4px;
+      }
+      .nav-links a {
+        font-size: 8.5px;
+        letter-spacing: 0.09em;
+        white-space: nowrap;
+        opacity: 0.72;
+      }
       section { padding: 96px 24px; }
       #hero, #finale { padding: 120px 24px 80px; }
       .thesis-grid, .edge-grid, .focus-cards {
@@ -1324,9 +1347,8 @@
       .team-grid::before, .team-grid::after { display: none; }
       .team-member.is-lead { padding: 0; order: -1; }
       .team-row { gap: 32px; }
-      .strategic-lp-topline { flex-direction: column-reverse; gap: 20px; }
-      .strategic-lp-card { text-align: center; }
-      .strategic-lp-body { margin: 0 auto; }
+      .strategic-lp-topline { gap: 20px; }
+      .strategic-lp-card { padding: 34px 22px; }
       .strategic-lp-rep { grid-template-columns: 1fr; justify-items: center; text-align: center; }
       .team-member.is-vp { flex: 0 0 140px; }
       .team-member.is-advisory { flex: 0 0 100px; }
@@ -1360,6 +1382,7 @@
       <li><a href="#process">Process</a></li>
       <li><a href="#portfolio">Portfolio</a></li>
       <li><a href="#team">Team</a></li>
+      <li><a href="#strategic-lps">LPs</a></li>
       <li><a href="#contact-form">Contact</a></li>
     </ul>
   </nav>
