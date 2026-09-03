@@ -725,10 +725,11 @@
     }
 
     .strategic-lps {
-      max-width: 720px;
+      max-width: 880px;
       margin: 0 auto 88px;
       opacity: 0;
       transform: translateY(20px);
+      scroll-margin-top: 120px;
     }
 
     .strategic-lp-card {
@@ -736,27 +737,27 @@
       overflow: hidden;
       background: linear-gradient(135deg, rgba(15, 32, 24, 0.96), rgba(11, 24, 18, 0.98));
       border: 1px solid rgba(237, 217, 176, 0.12);
-      padding: 36px clamp(28px, 5vw, 56px);
+      padding: 34px clamp(24px, 5vw, 48px);
       box-shadow: 0 28px 72px rgba(0, 0, 0, 0.24);
+      text-align: left;
     }
 
-    .strategic-lp-card::before {
-      content: 'FPT';
-      position: absolute;
-      right: -14px;
-      top: -34px;
-      font-family: var(--display);
-      font-size: clamp(96px, 17vw, 160px);
-      font-weight: 900;
-      letter-spacing: -0.08em;
-      color: var(--green);
-      opacity: 0.32;
-      pointer-events: none;
+    .strategic-lp-topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 32px;
+      margin-bottom: 26px;
+    }
+
+    .strategic-lp-logo {
+      width: min(220px, 42vw);
+      height: auto;
+      display: block;
+      filter: saturate(1.05);
     }
 
     .strategic-lp-kicker {
-      position: relative;
-      z-index: 1;
       font-family: var(--mono);
       font-size: 10px;
       letter-spacing: 0.16em;
@@ -766,26 +767,63 @@
     }
 
     .strategic-lp-name {
-      position: relative;
-      z-index: 1;
       font-family: var(--display);
-      font-size: clamp(42px, 7vw, 72px);
-      font-weight: 900;
-      line-height: 0.95;
-      letter-spacing: -0.06em;
+      font-size: clamp(30px, 5vw, 48px);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.04em;
       color: var(--parchment);
       margin-bottom: 18px;
     }
 
     .strategic-lp-body {
-      position: relative;
-      z-index: 1;
-      max-width: 480px;
-      margin: 0 auto;
+      max-width: 520px;
+      margin: 0;
       font-size: 15px;
       line-height: 1.7;
       color: var(--parchment);
       opacity: 0.58;
+    }
+
+    .strategic-lp-rep {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 18px;
+      align-items: center;
+      border-top: 1px solid rgba(237, 217, 176, 0.1);
+      margin-top: 28px;
+      padding-top: 22px;
+    }
+
+    .strategic-lp-rep img {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid rgba(237, 217, 176, 0.18);
+    }
+
+    .strategic-lp-rep-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 5px;
+    }
+
+    .strategic-lp-rep-name {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 21px;
+      color: var(--parchment);
+      margin-bottom: 3px;
+    }
+
+    .strategic-lp-rep-title {
+      font-size: 12px;
+      color: var(--parchment);
+      opacity: 0.46;
     }
 
     /* Tier label */
@@ -1275,6 +1313,10 @@
       .team-grid::before, .team-grid::after { display: none; }
       .team-member.is-lead { padding: 0; order: -1; }
       .team-row { gap: 32px; }
+      .strategic-lp-topline { flex-direction: column-reverse; gap: 20px; }
+      .strategic-lp-card { text-align: center; }
+      .strategic-lp-body { margin: 0 auto; }
+      .strategic-lp-rep { grid-template-columns: 1fr; justify-items: center; text-align: center; }
       .team-member.is-vp { flex: 0 0 140px; }
       .team-member.is-advisory { flex: 0 0 100px; }
       .contact-grid { grid-template-columns: 1fr; gap: 0; }
@@ -1680,15 +1722,6 @@
         ">— Dr. Gopal K. Chopra, Founding General Partner</footer>
       </blockquote>
 
-      <div class="team-tier-label">Strategic LPs</div>
-      <div class="strategic-lps" aria-label="Strategic Limited Partners">
-        <a class="strategic-lp-card" href="https://fpt.com/en" target="_blank" rel="noopener" style="display:block;text-decoration:none;">
-          <div class="strategic-lp-kicker">Founding Strategic Limited Partner</div>
-          <div class="strategic-lp-name">FPT</div>
-          <p class="strategic-lp-body">Global technology depth and operating reach for founders building at the intelligence inflection.</p>
-        </a>
-      </div>
-
       <!-- TIER 1: Hub-and-spoke — Gopal center -->
       <div class="team-tier-label">Founding Leadership</div>
       <div class="team-grid">
@@ -1770,6 +1803,36 @@
           <div class="member-firm">Digitalis Ventures</div>
         </div>
 
+      </div>
+
+      <!-- TIER 3: Strategic Limited Partners -->
+      <div class="team-connector">
+        <div class="team-connector-stem"></div>
+        <div class="team-connector-bar"></div>
+        <div class="team-connector-stem-down"></div>
+      </div>
+      <div class="team-tier-label">Strategic LPs</div>
+      <div class="strategic-lps" id="strategic-lps" aria-label="Strategic Limited Partners">
+        <div class="strategic-lp-card">
+          <div class="strategic-lp-topline">
+            <div>
+              <div class="strategic-lp-kicker">Founding Strategic Limited Partner</div>
+              <div class="strategic-lp-name">FPT Software</div>
+              <p class="strategic-lp-body">Global engineering depth, AI-augmented delivery capacity, and commercial reach for portfolio companies building at the intelligence inflection.</p>
+            </div>
+            <a href="https://fpt.com/en" target="_blank" rel="noopener" aria-label="FPT Software">
+              <img class="strategic-lp-logo" src="/fpt-software-logo.svg" alt="FPT Software logo">
+            </a>
+          </div>
+          <a class="strategic-lp-rep" href="https://www.linkedin.com/in/martin-geiger-3ba90759" target="_blank" rel="noopener" style="text-decoration:none;">
+            <img src="/martin-geiger.png" alt="Martin Geiger">
+            <div>
+              <div class="strategic-lp-rep-label">FPT LP Representative Member</div>
+              <div class="strategic-lp-rep-name">Martin Geiger</div>
+              <div class="strategic-lp-rep-title">COO, FPT Americas</div>
+            </div>
+          </a>
+        </div>
       </div>
 
       <!-- TIER 3: Advisory Network -->
