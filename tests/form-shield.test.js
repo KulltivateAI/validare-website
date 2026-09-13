@@ -199,21 +199,29 @@ test('same-origin boundary fails closed for missing and attacker-controlled orig
   });
 });
 
-test('challenge proxy rejects redirects instead of following an unsafe platform location', async () => {
+test('challenge upstream 3xx stays retryable while contact upstream 302 is terminal uncertainty', async () => {
   await withKey(async () => {
     let challengeBody;
     global.fetch = async (_url, init) => {
       challengeBody = JSON.parse(init.body);
       return new Response('', { status: 302, headers: { location: 'https://evil.example/challenge' } });
     };
-    const result = await run(challenge, mockReq({
+    const challengeResult = await run(challenge, mockReq({
       method: 'GET',
       url: '/api/form-shield/challenge?ingress=crm_contact&purpose=contact',
       headers: validOriginHeaders,
     }));
-    assert.equal(result.status, 502);
-    assert.equal(result.body.error, 'admission_temporarily_unavailable');
+    assert.equal(challengeResult.status, 502);
+    assert.equal(challengeResult.body.error, 'admission_temporarily_unavailable');
     assert.deepEqual(challengeBody, { ingress: 'crm_contact', purpose: 'contact' });
+
+    global.fetch = async () => new Response('', { status: 302, headers: { location: 'https://evil.example/contact' } });
+    const contactResult = await run(contact, mockReq({
+      headers: validOriginHeaders,
+      body: validSubmission,
+    }));
+    assert.equal(contactResult.status, 502);
+    assert.equal(contactResult.body.error, 'submission_uncertain');
   });
 });
 
