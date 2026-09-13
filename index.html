@@ -2403,6 +2403,7 @@
   const contactStartedAt = (window.performance && window.performance.now) ? window.performance.now() : Date.now();
   let contactVerified = false;
   let contactSubmitLocked = false;
+  let contactTerminalLocked = false;
 
   function contactUuid() {
     if (window.crypto && typeof window.crypto.randomUUID === 'function') return window.crypto.randomUUID();
@@ -2418,8 +2419,9 @@
 
   function setContactButton() {
     if (!contactSubmit) return;
-    contactSubmit.disabled = contactSubmitLocked || !contactVerified;
-    if (contactSubmitLocked) contactSubmit.textContent = 'Sending...';
+    contactSubmit.disabled = contactTerminalLocked || contactSubmitLocked || !contactVerified;
+    if (contactTerminalLocked) contactSubmit.textContent = 'Do Not Resubmit';
+    else if (contactSubmitLocked) contactSubmit.textContent = 'Sending...';
     else contactSubmit.textContent = contactVerified ? 'Send Message' : 'Verify to Send';
   }
 
@@ -2446,12 +2448,14 @@
 
   if (contactAltcha) {
     contactAltcha.addEventListener('statechange', event => {
+      if (contactTerminalLocked) return;
       const state = event.detail && event.detail.state;
       contactVerified = state === 'verified';
       if (state === 'expired' || state === 'error') contactVerified = false;
       setContactButton();
     });
     contactAltcha.addEventListener('verified', () => {
+      if (contactTerminalLocked) return;
       contactVerified = true;
       setContactButton();
     });
@@ -2461,7 +2465,7 @@
   if (contactForm && contactStatus) {
     contactForm.addEventListener('submit', async (event) => {
       event.preventDefault();
-      if (contactSubmitLocked) return;
+      if (contactTerminalLocked || contactSubmitLocked) return;
       contactStatus.textContent = '';
       contactStatus.classList.remove('is-error', 'is-terminal');
       if (!contactVerified) {
@@ -2493,15 +2497,12 @@
         const payload = {
           name,
           email,
-          source: contactForm.dataset.formSource || 'website',
-          tags: (contactForm.dataset.formTags || 'website,validare_site').split(',').map(tag => tag.trim()).filter(Boolean),
           notes: [
             company ? `Company: ${company}` : null,
             role ? `Type: ${role}` : null,
             `Message: ${message}`,
           ].filter(Boolean).join('\n'),
           attribution,
-          sms_consent: false,
           _hp: contactHp ? contactHp.value : '',
           _t: Number(contactElapsed ? contactElapsed.value : 0),
           altcha: String(formData.get('altcha') || ''),
@@ -2529,9 +2530,10 @@
       } catch (error) {
         contactStatus.textContent = error.message || 'We could not send your message. Please try again.';
         contactStatus.classList.add(error.terminal ? 'is-terminal' : 'is-error');
-        if (!error.terminal) resetContactProof();
+        if (error.terminal) contactTerminalLocked = true;
+        else resetContactProof();
       } finally {
-        contactSubmitLocked = false;
+        if (!contactTerminalLocked) contactSubmitLocked = false;
         setContactButton();
       }
     });

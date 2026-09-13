@@ -12,6 +12,7 @@ const ALLOWED_HOSTS = new Set([
   'www.validarecapital.com',
   'localhost',
   '127.0.0.1',
+  'validare-website-git-form-shield-validare-rollout-kulltivate-ai.vercel.app',
 ]);
 
 const ATTRIBUTION_LIMITS = {
@@ -47,12 +48,12 @@ function allowedOrigin(req) {
   const origin = header(req, 'origin');
   const referer = header(req, 'referer');
   const candidate = origin || referer;
-  if (!candidate) return true;
+  if (!candidate) return false;
   try {
     const parsed = new URL(candidate);
     const host = parsed.hostname.toLowerCase();
     if (parsed.protocol !== 'https:' && host !== 'localhost' && host !== '127.0.0.1') return false;
-    return ALLOWED_HOSTS.has(host) || host.endsWith('.vercel.app');
+    return ALLOWED_HOSTS.has(host);
   } catch {
     return false;
   }
@@ -123,6 +124,7 @@ function validEvidence(body) {
     && body._t >= 0
     && body._t <= 86_400_000
     && typeof body.altcha === 'string'
+    && Buffer.byteLength(body.altcha, 'utf8') > 0
     && Buffer.byteLength(body.altcha, 'utf8') <= 8192
     && typeof body.submissionAttemptId === 'string'
     && UUID_RE.test(body.submissionAttemptId);
@@ -131,25 +133,38 @@ function validEvidence(body) {
 function sanitizeContactBody(body) {
   const allowed = new Set([
     'name', 'email', 'phone', 'source', 'tags', 'notes', 'attribution',
-    'sms_consent', 'sms_opt_in', 'smsConsent', '_hp', '_t', 'altcha', 'submissionAttemptId',
+    'sms_consent', '_hp', '_t', 'altcha', 'submissionAttemptId',
   ]);
   if (!plainRecord(body) || Object.keys(body).some((key) => !allowed.has(key))) return null;
+  if ('sms_opt_in' in body || 'smsConsent' in body) return null;
   if (!validEvidence(body)) return null;
   if (!validEmail(body.email)) return null;
   if (body.name !== undefined && (typeof body.name !== 'string' || body.name.length < 1 || body.name.length > 120)) return null;
   if (body.phone !== undefined && (typeof body.phone !== 'string' || body.phone.length > 32)) return null;
-  if (body.source !== undefined && (typeof body.source !== 'string' || body.source.length > 64)) return null;
   if (body.notes !== undefined && (typeof body.notes !== 'string' || body.notes.length > 5000)) return null;
-  if (body.sms_consent !== undefined && typeof body.sms_consent !== 'boolean') return null;
-  if (body.sms_opt_in !== undefined && typeof body.sms_opt_in !== 'boolean') return null;
-  if (body.smsConsent !== undefined && typeof body.smsConsent !== 'boolean') return null;
-  if (!validTags(body.tags) || !validAttribution(body.attribution)) return null;
+  if (!validAttribution(body.attribution)) return null;
+
+  const sanitized = {
+    name: body.name,
+    email: typeof body.email === 'string' ? body.email.trim().toLowerCase() : body.email,
+    ...(body.phone !== undefined ? { phone: body.phone } : {}),
+    ...(body.notes !== undefined ? { notes: body.notes } : {}),
+    ...(body.attribution !== undefined ? { attribution: body.attribution } : {}),
+    _hp: body._hp,
+    _t: body._t,
+    altcha: body.altcha,
+    submissionAttemptId: body.submissionAttemptId,
+    source: 'website',
+    tags: ['website', 'validare_site'],
+    sms_consent: false,
+  };
+
   try {
-    if (Buffer.byteLength(JSON.stringify(body), 'utf8') > MAX_BODY_BYTES) return null;
+    if (Buffer.byteLength(JSON.stringify(sanitized), 'utf8') > MAX_BODY_BYTES) return null;
   } catch {
     return null;
   }
-  return { ...body };
+  return sanitized;
 }
 
 function explicitError(body) {
@@ -165,9 +180,11 @@ function validContactSuccess(body) {
   try {
     const parsed = JSON.parse(body);
     if (!plainRecord(parsed) || parsed.ok !== true) return false;
-    return typeof parsed.contactId === 'string' && parsed.contactId.length > 0
-      && typeof parsed.submissionId === 'string' && parsed.submissionId.length > 0
-      && parsed.contactId !== parsed.submissionId;
+    return typeof parsed.id === 'string' && parsed.id.length > 0
+      && typeof parsed.contactId === 'string' && parsed.contactId.length > 0
+      && parsed.id === parsed.contactId
+      && parsed.contactId !== 'filtered'
+      && (parsed.resolvedSource === undefined || typeof parsed.resolvedSource === 'string');
   } catch {
     return false;
   }
