@@ -33,6 +33,7 @@
   <script defer src="https://www.kulltivate.ai/api/v1/pixel/k.js?s=validare"></script>
 
   <!-- GSAP + ScrollTrigger + Lenis -->
+  <script src="https://cdn.jsdelivr.net/npm/altcha@3.2.2/dist/main/altcha.min.js" type="module" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
@@ -1124,6 +1125,7 @@
       opacity: 0.5;
       margin-bottom: 48px;
       max-width: 480px;
+      overflow-wrap: anywhere;
       opacity: 0;
     }
 
@@ -1154,19 +1156,21 @@
 
     .contact-form {
       width: min(720px, 100%);
+      max-width: 100%;
       margin: 0 auto;
       opacity: 0;
     }
 
     .contact-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: 16px;
       margin-bottom: 16px;
     }
 
     .contact-field {
       display: block;
+      min-width: 0;
       text-align: left;
       margin-bottom: 16px;
     }
@@ -1185,6 +1189,8 @@
     .contact-field select,
     .contact-field textarea {
       width: 100%;
+      max-width: 100%;
+      min-width: 0;
       border: 1px solid rgba(237, 217, 176, 0.14);
       border-radius: 0;
       background: rgba(17, 32, 22, 0.72);
@@ -1248,6 +1254,7 @@
       color: var(--parchment);
       opacity: 0.32;
       margin-top: 18px;
+      overflow-wrap: anywhere;
     }
 
     .contact-status {
@@ -1258,6 +1265,40 @@
 
     .contact-status.is-error {
       color: #fca5a5;
+    }
+
+    .contact-status.is-terminal {
+      color: #fbbf24;
+    }
+
+    .form-shield-wrap {
+      margin: 8px 0 18px;
+      text-align: left;
+    }
+
+    .form-shield-label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 8px;
+    }
+
+    altcha-widget {
+      --altcha-color-base: rgba(17, 32, 22, 0.92);
+      --altcha-color-base-content: var(--parchment);
+      --altcha-color-border: rgba(237, 217, 176, 0.24);
+      --altcha-border-color: rgba(237, 217, 176, 0.24);
+      --altcha-color-text: var(--parchment);
+      --altcha-color-primary: var(--amber);
+      --altcha-color-primary-content: var(--green-deep);
+      --altcha-color-neutral: rgba(237, 217, 176, 0.22);
+      --altcha-color-neutral-content: var(--parchment);
+      display: block;
+      width: 100%;
+      max-width: 100%;
     }
 
     .contact-hp {
@@ -1931,11 +1972,13 @@
     <div class="finale-eyebrow" id="finale-eyebrow">Founders &amp; Co-Investors Welcome</div>
     <h2 class="finale-headline" id="finale-headline">Back the bold.</h2>
     <p class="finale-sub" id="finale-sub">Applications from founders and co-investors welcome. We respond to every message personally.</p>
-    <form class="contact-form" id="contact-form" action="/api/contact" method="post" novalidate>
-      <input type="hidden" name="startedAt" id="contact-started-at" value="">
+    <form class="contact-form" id="contact-form" action="/api/form-shield/contact" method="post" novalidate data-form-source="website" data-form-tags="website,validare_site">
+      <input type="hidden" name="_hp" id="contact-hp" value="">
+      <input type="hidden" name="_t" id="contact-elapsed" value="">
+      <input type="hidden" name="submissionAttemptId" id="contact-submission-attempt-id" value="">
       <div class="contact-hp" aria-hidden="true">
         <label for="company_website">Website</label>
-        <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off">
+        <input id="company_website" type="text" tabindex="-1" autocomplete="off">
       </div>
       <div class="contact-grid">
         <label class="contact-field">
@@ -1967,8 +2010,18 @@
         <span>Message *</span>
         <textarea name="message" rows="5" required maxlength="4000" placeholder="Tell us what you are building, investing in, or hoping to discuss."></textarea>
       </label>
-      <button type="submit" class="finale-cta contact-submit" id="finale-cta" data-k-cta="contact_form">Send Message</button>
-      <p class="contact-note">Your message is sent securely to Validare's team. We respond personally.</p>
+      <div class="form-shield-wrap">
+        <span class="form-shield-label">Verification *</span>
+        <altcha-widget
+          id="contact-altcha"
+          name="altcha"
+          challenge="/api/form-shield/challenge?ingress=crm_contact&purpose=contact"
+          auto="off"
+          type="checkbox"
+          workers="2"></altcha-widget>
+      </div>
+      <button type="submit" class="finale-cta contact-submit" id="finale-cta" data-k-cta="contact_form" disabled>Verify to Send</button>
+      <p class="contact-note">Your message is protected by Form Shield and sent securely to Validare's team. We respond personally.</p>
       <p class="contact-status" id="contact-status" role="status" aria-live="polite"></p>
     </form>
 
@@ -2342,42 +2395,144 @@
   // ─── CONTACT FORM ───
   const contactForm = document.getElementById('contact-form');
   const contactStatus = document.getElementById('contact-status');
-  const contactStartedAt = document.getElementById('contact-started-at');
-  if (contactStartedAt) contactStartedAt.value = String(Date.now());
+  const contactSubmit = document.getElementById('finale-cta');
+  const contactAltcha = document.getElementById('contact-altcha');
+  const contactHp = document.getElementById('contact-hp');
+  const contactElapsed = document.getElementById('contact-elapsed');
+  const contactAttempt = document.getElementById('contact-submission-attempt-id');
+  const contactStartedAt = (window.performance && window.performance.now) ? window.performance.now() : Date.now();
+  let contactVerified = false;
+  let contactSubmitLocked = false;
+
+  function contactUuid() {
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') return window.crypto.randomUUID();
+    return '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, c =>
+      (c ^ window.crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+  }
+
+  function elapsedMs() {
+    const now = (window.performance && window.performance.now) ? window.performance.now() : Date.now();
+    return Math.max(0, Math.round(now - contactStartedAt));
+  }
+
+  function setContactButton() {
+    if (!contactSubmit) return;
+    contactSubmit.disabled = contactSubmitLocked || !contactVerified;
+    if (contactSubmitLocked) contactSubmit.textContent = 'Sending...';
+    else contactSubmit.textContent = contactVerified ? 'Send Message' : 'Verify to Send';
+  }
+
+  function formShieldMessage(error) {
+    const code = error || '';
+    if (code === 'admission_temporarily_unavailable' || code === 'visitor_identity_unavailable') {
+      return 'Verification is temporarily unavailable. Please refresh the verification and try again.';
+    }
+    if (code === 'submission_uncertain') {
+      return 'Your submission may already have reached Validare. To avoid a duplicate, please do not resubmit; email hello@validarecap.com if you need to follow up.';
+    }
+    if (code === 'proof_replay' || code === 'invalid_submission') {
+      return 'Please refresh the verification and submit again.';
+    }
+    return 'We could not send your message. Please try again.';
+  }
+
+  function resetContactProof() {
+    contactVerified = false;
+    if (contactAttempt) contactAttempt.value = '';
+    if (contactAltcha && typeof contactAltcha.reset === 'function') contactAltcha.reset();
+    setContactButton();
+  }
+
+  if (contactAltcha) {
+    contactAltcha.addEventListener('statechange', event => {
+      const state = event.detail && event.detail.state;
+      contactVerified = state === 'verified';
+      if (state === 'expired' || state === 'error') contactVerified = false;
+      setContactButton();
+    });
+    contactAltcha.addEventListener('verified', () => {
+      contactVerified = true;
+      setContactButton();
+    });
+  }
+  setContactButton();
 
   if (contactForm && contactStatus) {
     contactForm.addEventListener('submit', async (event) => {
       event.preventDefault();
-      const submit = contactForm.querySelector('button[type="submit"]');
+      if (contactSubmitLocked) return;
       contactStatus.textContent = '';
-      contactStatus.classList.remove('is-error');
-      if (submit) {
-        submit.disabled = true;
-        submit.textContent = 'Sending...';
+      contactStatus.classList.remove('is-error', 'is-terminal');
+      if (!contactVerified) {
+        contactStatus.textContent = 'Please complete the verification before sending.';
+        contactStatus.classList.add('is-error');
+        return;
       }
+
+      contactSubmitLocked = true;
+      if (contactAttempt && !contactAttempt.value) contactAttempt.value = contactUuid();
+      if (contactElapsed) contactElapsed.value = String(elapsedMs());
+      setContactButton();
 
       try {
         const formData = new FormData(contactForm);
+        const name = String(formData.get('name') || '').trim();
+        const email = String(formData.get('email') || '').trim().toLowerCase();
+        const company = String(formData.get('company') || '').trim();
+        const role = String(formData.get('role') || '').trim();
+        const message = String(formData.get('message') || '').trim();
+        const params = new URLSearchParams(window.location.search);
+        const attribution = {};
+        ['gclid', 'fbclid', 'gad_source', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(key => {
+          const value = params.get(key);
+          if (value) attribution[key] = value.slice(0, key === 'utm_campaign' || key === 'utm_content' ? 512 : 256);
+        });
+        attribution.referrer_source = (document.referrer || window.location.href).slice(0, 512);
+
+        const payload = {
+          name,
+          email,
+          source: contactForm.dataset.formSource || 'website',
+          tags: (contactForm.dataset.formTags || 'website,validare_site').split(',').map(tag => tag.trim()).filter(Boolean),
+          notes: [
+            company ? `Company: ${company}` : null,
+            role ? `Type: ${role}` : null,
+            `Message: ${message}`,
+          ].filter(Boolean).join('\n'),
+          attribution,
+          sms_consent: false,
+          _hp: contactHp ? contactHp.value : '',
+          _t: Number(contactElapsed ? contactElapsed.value : 0),
+          altcha: String(formData.get('altcha') || ''),
+          submissionAttemptId: contactAttempt ? contactAttempt.value : '',
+        };
+
         const response = await fetch(contactForm.action, {
           method: 'POST',
-          headers: { 'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(formData),
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
         });
         const result = await response.json().catch(() => ({}));
         if (!response.ok || result.ok === false) {
-          throw new Error(result.message || 'We could not send your message. Please try again.');
+          const errorCode = result.error || result.message || 'submit_failed';
+          const retryable = response.status === 503 && errorCode === 'admission_temporarily_unavailable';
+          const uncertain = errorCode === 'submission_uncertain' || response.status === 502;
+          const err = new Error(formShieldMessage(errorCode));
+          err.retryable = retryable;
+          err.terminal = uncertain || (!retryable && response.status >= 500);
+          throw err;
         }
-        contactStatus.textContent = result.message || 'Thank you — your message has been received.';
+        contactStatus.textContent = 'Thank you — your message has been received.';
         contactForm.reset();
-        if (contactStartedAt) contactStartedAt.value = String(Date.now());
+        resetContactProof();
       } catch (error) {
         contactStatus.textContent = error.message || 'We could not send your message. Please try again.';
-        contactStatus.classList.add('is-error');
+        contactStatus.classList.add(error.terminal ? 'is-terminal' : 'is-error');
+        if (!error.terminal) resetContactProof();
       } finally {
-        if (submit) {
-          submit.disabled = false;
-          submit.textContent = 'Send Message';
-        }
+        contactSubmitLocked = false;
+        setContactButton();
       }
     });
   }
