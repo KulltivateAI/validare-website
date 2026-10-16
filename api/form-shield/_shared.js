@@ -213,7 +213,9 @@ async function relayPlatform(req, res, path, body, { validateSuccess = false } =
     const retryAfter = response.headers.get('retry-after');
 
     if (response.status >= 300 && response.status < 400) {
-      return json(res, 502, { error: 'admission_temporarily_unavailable' });
+      return validateSuccess
+        ? json(res, 502, { error: 'submission_uncertain' })
+        : json(res, 502, { error: 'admission_temporarily_unavailable' });
     }
 
     if (validateSuccess && response.status >= 500) {
