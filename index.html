@@ -543,6 +543,53 @@
       opacity: 0.45;
     }
 
+    /* ─── EXPLORATIONS ─── */
+    .explorations-lede {
+      max-width: 760px;
+      margin-bottom: 56px;
+      font-size: 18px;
+      opacity: 0.7;
+    }
+    .explorations-sub { margin-top: 72px; }
+    .explorations-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 1px solid rgba(237, 217, 176, 0.14);
+    }
+    .explorations-item {
+      padding: 32px 32px 32px 0;
+      border-bottom: 1px solid rgba(237, 217, 176, 0.14);
+    }
+    .explorations-item + .explorations-item { padding-left: 32px; border-left: 1px solid rgba(237, 217, 176, 0.14); }
+    .explorations-note {
+      margin-top: 28px;
+      max-width: 760px;
+      font-size: 15px;
+      opacity: 0.55;
+    }
+    .explorations-thesis {
+      margin: 72px 0 0;
+      padding-left: 28px;
+      border-left: 2px solid var(--amber);
+      max-width: 820px;
+      font-family: var(--display);
+      font-style: italic;
+      font-size: clamp(22px, 2.6vw, 32px);
+      line-height: 1.35;
+      color: var(--parchment);
+    }
+    .explorations-disclaimer {
+      margin-top: 48px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      line-height: 1.8;
+      text-transform: uppercase;
+      color: var(--parchment);
+      opacity: 0.3;
+    }
+
     /* ─── FOCUS / CARDS ─── */
     #focus {
       background: var(--green-deep);
@@ -1453,6 +1500,10 @@
       .contact-field input, .contact-field select, .contact-field textarea { font-size: 16px; }
       .thesis-quote { font-size: 32px; }
       .edge-stats { flex-direction: column; gap: 32px; }
+      .explorations-list { grid-template-columns: 1fr; }
+      .explorations-item, .explorations-item + .explorations-item { padding: 24px 0; border-left: 0; }
+      .explorations-sub { margin-top: 56px; }
+      .explorations-thesis { margin-top: 56px; padding-left: 20px; }
       .process-line { left: 48px; }
     }
   </style>
@@ -1482,6 +1533,7 @@
       <li><a href="#focus">Focus</a></li>
       <li><a href="#process">Process</a></li>
       <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#explorations">Explorations</a></li>
       <li><a href="#team">Team</a></li>
       <li><a href="#strategic-lps">LPs</a></li>
       <li><a href="#contact-form">Contact</a></li>
@@ -1773,6 +1825,55 @@
       </div>
 
       <p style="font-family:var(--mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--parchment);opacity:0.25;text-align:center;margin-top:48px;">Additional positions held privately. Details available on request.</p>
+    </div>
+  </section>
+
+  <!-- ─── EXPLORATIONS ─── -->
+  <section id="explorations" style="background:var(--green-mid);">
+    <div class="section-inner">
+      <div class="section-eyebrow">Validare Explorations</div>
+      <h2 class="focus-headline" style="margin-bottom:16px;">Invest in the future.<br>Co-invest in its global scale.</h2>
+      <div class="amber-line" style="opacity:1;margin-bottom:40px;"></div>
+      <p class="explorations-lede">Transformative technology needs two kinds of capital: venture capital to prove and build it, and co-investment in project infrastructure to scale it around the world. Validare provides both from a single operating thesis.</p>
+
+      <div class="focus-cards">
+        <div class="focus-card">
+          <div class="card-bg-letter" aria-hidden="true">Vc</div>
+          <h3 class="card-title">Validare Capital</h3>
+          <p class="card-body">Invests in the future. We enter ahead of the valuation leap, before the proof exists and before the market has priced it in, backing intelligence-first companies in digital health and life sciences, learning and skills, and robotics and autonomous systems.</p>
+          <span class="card-tag">Venture</span>
+        </div>
+
+        <div class="focus-card">
+          <div class="card-bg-letter" aria-hidden="true">Ve</div>
+          <h3 class="card-title">Validare Explorations</h3>
+          <p class="card-body">Co-invests in the global scaling of transformative infrastructure. When technology works, the constraint moves from invention to production capacity, automation facilities, compute and data. Explorations is the co-investment and management platform that originates, underwrites, structures and manages the projects that build it.</p>
+          <span class="card-tag">Infrastructure Co-Investment</span>
+        </div>
+      </div>
+
+      <div class="explorations-sub">
+        <div class="section-eyebrow" style="margin-bottom:12px;">Initiatives Under Discussion</div>
+        <div class="explorations-list">
+          <div class="explorations-item">
+            <h3 class="card-title">Vietnam AI Data Center</h3>
+            <p class="card-body">Hyperscale compute capacity for AI-native companies in the Ho Chi Minh City corridor, developed alongside FPT.</p>
+          </div>
+          <div class="explorations-item">
+            <h3 class="card-title">Asia Tire Upcycling</h3>
+            <p class="card-body">Waste-tire upcycling facilities with PRTI, built on a financing template proven in the United States.</p>
+          </div>
+          <div class="explorations-item">
+            <h3 class="card-title">Asia Nano Carbon Fiber</h3>
+            <p class="card-body">Advanced-materials capacity for aerospace, wind and electric-vehicle supply chains, using recovered carbon.</p>
+          </div>
+        </div>
+        <p class="explorations-note">Also exploring small modular reactors, rare earth processing and quantum infrastructure. Economic Zone Strategy: building bridges with governments, states and institutions globally.</p>
+      </div>
+
+      <blockquote class="explorations-thesis">This is not a thesis about technology as a sector. It is a thesis about timing: fund the future at the break, then co-invest in its scale.</blockquote>
+
+      <p class="explorations-disclaimer">Informational purposes only; not an offer to sell securities. Validare Explorations and the structures described are proposed and subject to change, legal and regulatory review, and the formation of the relevant entities.</p>
     </div>
   </section>
 
